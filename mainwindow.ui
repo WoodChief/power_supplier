@@ -40,7 +40,12 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {
+   <string notr="true">QFrame {
+	
+	background-color: rgba(191, 64, 64, 0);
+}
+
+QMainWindow {
 	background-color: rgb(237, 237, 237);
 }
 
@@ -381,6 +386,8 @@ QSlider::sub-page:horizontal {
      <string notr="true">QRadioButton::indicator {
 	width:0 ;
 	height:0;
+	
+	background-color: rgba(191, 64, 64, 0);
 }
 
 QRadioButton {
@@ -716,6 +723,7 @@ QLabel {
      <string notr="true">QRadioButton::indicator {
 	width:0 ;
 	height:0;
+	background-color: rgba(191, 64, 64, 0);
 }
 
 QRadioButton {
