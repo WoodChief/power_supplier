@@ -1,5 +1,6 @@
 
 import sys
+from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
 from mainwindow import Ui_mainWindow
@@ -12,6 +13,8 @@ class MainWindow(QMainWindow):
         # Load the ui file #
         self.ui = Ui_mainWindow()
         self.ui.setupUi(self)
+        # self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setWindowIcon(QIcon("images/logoColor.ico"))
 
         # Hide sliders wich are not active
         self.ui.durationFrame.hide()
