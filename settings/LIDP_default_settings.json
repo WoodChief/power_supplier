@@ -1,0 +1,48 @@
+{
+    "name": "ЛИДП",
+    "current": {
+        "current": 70,
+        "min_current": 1,
+        "max_current": 190
+    },
+    "voltage": {
+        "voltage": 170,
+        "min_voltage": 0,
+        "max_voltage": 200
+    },
+    "duration": {
+        "duration": 220,
+        "min_duration": 1,
+        "max_duration": 250
+    },
+    "frequency": {
+        "frequency": 10,
+        "min_frequency": 1,
+        "max_frequency": 30,
+        "pulse_period_mks":  100000
+    },
+    "qswitch": {
+        "delay": 0,
+        "min_delay": -30,
+        "max_delay": 30,
+        "pwm": 95
+    },
+    "tec": {
+        "tec_mode" : "OFF",
+        "stabilization_temp": 30.0,
+        "min_stabilization_temp": 15,
+        "max_stabilization_temp": 45,
+        "min_range_temp": 25,
+        "max_range_temp": 35,
+        "current_temp": 0
+    },
+    "features": {
+        "pcd_21": "OFF",
+        "jitter_stabilizer": "OFF",
+        "stop_diode": "OFF"
+    },
+    "range_finder": {
+        "mode" : "OFF",
+        "distance": 0
+    }
+}
