@@ -39,26 +39,29 @@ class MainWindow(QMainWindow):
         for device in settings:
             self.ui.presetComboBox.addItem(device.name)
 
-        # Connect doubleSpinbox and Slider
+        # Connection between widget (not accessable from designer)
         self.ui.currentValueDoubleSpinBox.valueChanged.connect(
             self.on_current_spinbox_value_changed
         )
         self.ui.currentSlider.valueChanged.connect(
             self.on_current_slider_value_change
         )
-
-        # Connect range spinbox
         self.ui.rangeTempMinSpinBox.valueChanged.connect(
             self.ui.rangeTempMaxSpinBox.setMinimum
         )
         self.ui.rangeTempMaxSpinBox.valueChanged.connect(
             self.ui.rangeTempMinSpinBox.setMaximum
         )
+
         # Load settings for the first(zero index) device
         self.load_device(index=0)
 
+        # Connections #
         self.ui.presetComboBox.currentIndexChanged.connect(
             lambda: self.load_device(self.ui.presetComboBox.currentIndex())
+        )
+        self.ui.presetPushButton.pressed.connect(
+            self.on_preset_push_button_pressed
         )
 
     def on_current_spinbox_value_changed(self):
@@ -232,6 +235,39 @@ class MainWindow(QMainWindow):
         self.ui.offFDPumpingCheckBox.setChecked(
             device.features.stop_diode
         )
+
+    def prepare_settings_values(self, index):
+        device = settings[index]
+        device.current.current = self.ui.currentValueDoubleSpinBox.value()
+        device.duration.duration = self.ui.durationValueSpinBox.value()
+        device.frequency.frequency = self.ui.frequencyValueSpinBox.value()
+        device.voltage.voltage = self.ui.voltageValueDoubleSpinBox.value()
+        device.qswitch.delay = self.ui.delayValueSpinBox.value()
+        device.qswitch.pwm = self.ui.PWMValueSpinBox.value()
+        device.features.pcd_21 = self.ui.PCDCheckBox.isChecked()
+        device.features.jitter_stabilizer = (
+            self.ui.jitterStabCheckBox.isChecked()
+            )
+        device.features.stop_diode = self.ui.offFDPumpingCheckBox.isChecked()
+        device.range_finder.mode = self.ui.rangefinderCheckBox.isChecked()
+        if self.ui.offTempRadioButton.isChecked():
+            device.tec.tec_mode = 0
+        elif self.ui.stabTempRadioButton.isChecked():
+            device.tec.tec_mode = 1
+        elif self.ui.rangeTempRadioButton.isChecked():
+            device.tec.tec_mode = 2
+        device.tec.stabilization_temp = self.ui.stabTempDoubleSpinBox.value()
+        device.tec.min_range_temp = self.ui.rangeTempMinSpinBox.value()
+        device.tec.max_range_temp = self.ui.rangeTempMaxSpinBox.value()
+
+    def on_save_push_button_pressed(self):
+        index = self.ui.presetComboBox.currentIndex()
+        self.prepare_settings_values(index)
+        print(settings[index], '\n')
+        file = settings_path + settings_files[index]
+        print('Path to save settings:', file)
+        with open(file, 'w') as f:
+            json.dump(settings[index], f, ensure_ascii=False)
 
 
 if __name__ == '__main__':
