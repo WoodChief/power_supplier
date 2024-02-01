@@ -26,9 +26,13 @@ class MainWindow(QMainWindow):
         # self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowIcon(QIcon("images/logoColor.ico"))
 
-        # Hide sliders wich are not active
+        # Hide widgets wich are not active
         self.ui.durationFrame.hide()
         self.ui.frequencyFrame.hide()
+        self.ui.connectIconLabel.hide()
+
+        # Default text labels
+        self.ui.powerSupplyNumberLabel.setText('Нет соединения')
 
         # Fill presetComboBox
         self.ui.presetComboBox.clear()
@@ -43,6 +47,13 @@ class MainWindow(QMainWindow):
             self.on_current_slider_value_change
         )
 
+        # Connect range spinbox
+        self.ui.rangeTempMinSpinBox.valueChanged.connect(
+            self.ui.rangeTempMaxSpinBox.setMinimum
+        )
+        self.ui.rangeTempMaxSpinBox.valueChanged.connect(
+            self.ui.rangeTempMinSpinBox.setMaximum
+        )
         # Load settings for the first(zero index) device
         self.load_device(index=0)
 
@@ -130,6 +141,94 @@ class MainWindow(QMainWindow):
         self.ui.frequencyMaxLabel.setText(
             str(device.frequency.max_frequency)
         )
+        self.ui.factDurationValueLabel.setText(
+            str(int(1 / self.ui.frequencyValueSpinBox.value() * 10**6))
+        )
+        device.frequency.pulse_period_mks = (
+            int(self.ui.factDurationValueLabel.text())
+        )
+
+        # VOLTAGE #
+        self.ui.voltageValueDoubleSpinBox.setValue(
+            device.voltage.voltage
+        )
+        self.ui.voltageValueDoubleSpinBox.setMinimum(
+            device.voltage.min_voltage
+        )
+        self.ui.voltageValueDoubleSpinBox.setMaximum(
+            device.voltage.max_voltage
+        )
+
+        # QSWITCH #
+        self.ui.delayValueSpinBox.setValue(
+            device.qswitch.delay
+        )
+        self.ui.delayValueSpinBox.setMinimum(
+            device.qswitch.min_delay
+        )
+        self.ui.delayValueSpinBox.setMaximum(
+            device.qswitch.max_delay
+        )
+        self.ui.PWMValueSpinBox.setValue(
+            device.qswitch.pwm
+        )
+
+        # RANGE FINDER #
+        self.ui.randefinderValueLabel.setText('0')
+        self.ui.rangefinderCheckBox.setChecked(
+            device.range_finder.mode
+        )
+
+        # TEC #
+        self.ui.stabTempDoubleSpinBox.setValue(
+            device.tec.stabilization_temp
+        )
+        self.ui.stabTempDoubleSpinBox.setMinimum(
+            device.tec.min_stabilization_temp
+        )
+        self.ui.stabTempDoubleSpinBox.setMaximum(
+            device.tec.max_stabilization_temp
+        )
+        self.ui.rangeTempMinSpinBox.setValue(
+            device.tec.min_range_temp
+        )
+        self.ui.rangeTempMinSpinBox.setMinimum(
+            device.tec.min_stabilization_temp
+        )
+        self.ui.rangeTempMinSpinBox.setMaximum(
+            device.tec.max_range_temp
+        )
+        self.ui.rangeTempMaxSpinBox.setValue(
+            device.tec.max_range_temp
+        )
+        self.ui.rangeTempMaxSpinBox.setMinimum(
+            device.tec.min_range_temp
+        )
+        self.ui.rangeTempMaxSpinBox.setMaximum(
+            device.tec.max_stabilization_temp
+        )
+        self.ui.tempGraphValueLabel.setText(
+            str(device.tec.current_temp)
+        )
+
+        if device.tec.tec_mode == 0:
+            self.ui.offTempRadioButton.click()
+        elif device.tec.tec_mode == 1:
+            self.ui.stabTempRadioButton.click()
+        elif device.tec.tec_mode == 2:
+            self.ui.rangeTempRadioButton.click()
+
+        # FEATURES #
+        self.ui.PCDCheckBox.setChecked(
+            device.features.pcd_21
+        )
+        self.ui.jitterStabCheckBox.setChecked(
+            device.features.jitter_stabilizer
+        )
+        self.ui.offFDPumpingCheckBox.setChecked(
+            device.features.stop_diode
+        )
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

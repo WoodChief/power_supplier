@@ -19,7 +19,7 @@
         "frequency": 10,
         "min_frequency": 1,
         "max_frequency": 30,
-        "pulse_period_mks":  100000
+        "pulse_period_mks":  0
     },
     "qswitch": {
         "delay": 0,
@@ -28,7 +28,7 @@
         "pwm": 95
     },
     "tec": {
-        "tec_mode" : "OFF",
+        "tec_mode" : 0,
         "stabilization_temp": 30.0,
         "min_stabilization_temp": 15,
         "max_stabilization_temp": 45,
@@ -37,12 +37,12 @@
         "current_temp": 0
     },
     "features": {
-        "pcd_21": "OFF",
-        "jitter_stabilizer": "OFF",
-        "stop_diode": "OFF"
+        "pcd_21": false,
+        "jitter_stabilizer": false,
+        "stop_diode": false
     },
     "range_finder": {
-        "mode" : "OFF",
+        "mode" : false,
         "distance": 0
     }
 }
