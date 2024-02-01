@@ -2267,36 +2267,11 @@ QComboBox::down-arrow:hover {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>-1</number>
      </property>
      <property name="frame">
       <bool>true</bool>
      </property>
-     <item>
-      <property name="text">
-       <string>ЛДЦ</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>МООПС</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>ЛИДП</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Л-60</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Л-130</string>
-      </property>
-     </item>
     </widget>
     <widget class="QPushButton" name="presetPushButton">
      <property name="geometry">

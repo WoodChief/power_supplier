@@ -905,11 +905,6 @@ class Ui_mainWindow(object):
         self.exportPushButton.setCheckable(True)
         self.exportPushButton.setFlat(False)
         self.presetComboBox = QComboBox(self.topFrame)
-        self.presetComboBox.addItem("")
-        self.presetComboBox.addItem("")
-        self.presetComboBox.addItem("")
-        self.presetComboBox.addItem("")
-        self.presetComboBox.addItem("")
         self.presetComboBox.setObjectName(u"presetComboBox")
         self.presetComboBox.setGeometry(QRect(120, 0, 161, 30))
         self.presetComboBox.setLayoutDirection(Qt.LeftToRight)
@@ -1182,7 +1177,7 @@ class Ui_mainWindow(object):
         self.currentRadioButton.clicked.connect(self.frequencyLineLabel.show)
         self.durationRadioButton.clicked.connect(self.frequencyLineLabel.show)
 
-        self.presetComboBox.setCurrentIndex(0)
+        self.presetComboBox.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(mainWindow)
@@ -1243,12 +1238,6 @@ class Ui_mainWindow(object):
         self.disconnectIconLabel.setText("")
         self.optionsPushButton.setText("")
         self.exportPushButton.setText("")
-        self.presetComboBox.setItemText(0, QCoreApplication.translate("mainWindow", u"\u041b\u0414\u0426", None))
-        self.presetComboBox.setItemText(1, QCoreApplication.translate("mainWindow", u"\u041c\u041e\u041e\u041f\u0421", None))
-        self.presetComboBox.setItemText(2, QCoreApplication.translate("mainWindow", u"\u041b\u0418\u0414\u041f", None))
-        self.presetComboBox.setItemText(3, QCoreApplication.translate("mainWindow", u"\u041b-60", None))
-        self.presetComboBox.setItemText(4, QCoreApplication.translate("mainWindow", u"\u041b-130", None))
-
         self.presetPushButton.setText("")
         self.backgroundBottomFrameLabel.setText("")
         self.savePushButton.setText("")
