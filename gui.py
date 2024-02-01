@@ -57,6 +57,10 @@ class MainWindow(QMainWindow):
         # Load settings for the first(zero index) device
         self.load_device(index=0)
 
+        self.ui.presetComboBox.currentIndexChanged.connect(
+            lambda: self.load_device(self.ui.presetComboBox.currentIndex())
+        )
+
     def on_current_spinbox_value_changed(self):
         self.ui.currentSlider.setValue(
             int(self.ui.currentValueDoubleSpinBox.value() * 10)

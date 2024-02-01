@@ -1,1 +1,1 @@
-Universal software for ELC power supplies
+Universal software for ELC power suppliers

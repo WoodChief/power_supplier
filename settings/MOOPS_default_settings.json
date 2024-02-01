@@ -1,7 +1,7 @@
 {
     "name": "МООПС",
     "current": {
-        "current": 70,
+        "current": 20,
         "min_current": 1,
         "max_current": 190
     },

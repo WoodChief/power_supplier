@@ -1,7 +1,7 @@
 {
     "name": "Л-130",
     "current": {
-        "current": 70,
+        "current": 30,
         "min_current": 1,
         "max_current": 190
     },

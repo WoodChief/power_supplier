@@ -1,7 +1,7 @@
 {
     "name": "ЛИДП",
     "current": {
-        "current": 70,
+        "current": 40,
         "min_current": 1,
         "max_current": 190
     },

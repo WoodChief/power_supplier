@@ -1,38 +1,38 @@
 {
     "name": "ЛДЦ",
     "current": {
-        "current": 71,
+        "current": 70,
         "min_current": 10,
-        "max_current": 80
+        "max_current": 100
     },
     "voltage": {
         "voltage": 120,
-        "min_voltage": 115,
+        "min_voltage": 70,
         "max_voltage": 125
     },
     "duration": {
-        "duration": 230,
-        "min_duration": 210,
-        "max_duration": 240
+        "duration": 250,
+        "min_duration": 100,
+        "max_duration": 300
     },
     "frequency": {
-        "frequency": 11,
-        "min_frequency": 9,
-        "max_frequency": 13,
+        "frequency": 10,
+        "min_frequency": 1,
+        "max_frequency": 30,
         "pulse_period_mks":  0
     },
     "qswitch": {
-        "delay": 4,
-        "min_delay": -5,
-        "max_delay": 5,
-        "pwm": 91
+        "delay": 0,
+        "min_delay": -30,
+        "max_delay": 30,
+        "pwm": 95
     },
     "tec": {
-        "tec_mode" : 2,
+        "tec_mode" : 1,
         "stabilization_temp": 28.1,
-        "min_stabilization_temp": 21,
-        "max_stabilization_temp": 32,
-        "min_range_temp": 24,
+        "min_stabilization_temp": 15,
+        "max_stabilization_temp": 40,
+        "min_range_temp": 25,
         "max_range_temp": 30,
         "current_temp": 0
     },
@@ -42,7 +42,7 @@
         "stop_diode": true
     },
     "range_finder": {
-        "mode" : true,
+        "mode" : false,
         "distance": 0
     }
 }
