@@ -1,1 +1,48 @@
-{"name": "ЛДЦ", "current": {"current": 52.9, "min_current": 10, "max_current": 100}, "voltage": {"voltage": 125.0, "min_voltage": 70, "max_voltage": 125}, "duration": {"duration": 247, "min_duration": 100, "max_duration": 300}, "frequency": {"frequency": 14, "min_frequency": 1, "max_frequency": 30, "pulse_period_mks": 100000}, "qswitch": {"delay": 0, "min_delay": -30, "max_delay": 30, "pwm": 71}, "tec": {"tec_mode": 0, "stabilization_temp": 28.1, "min_stabilization_temp": 15, "max_stabilization_temp": 40, "min_range_temp": 25, "max_range_temp": 30, "current_temp": 0}, "features": {"pcd_21": true, "jitter_stabilizer": true, "stop_diode": true}, "range_finder": {"mode": false, "distance": 0}}
+{
+    "name": "ЛДЦ",
+    "current": {
+        "current": 52.9,
+        "min_current": 10,
+        "max_current": 100
+    },
+    "voltage": {
+        "voltage": 125.0,
+        "min_voltage": 70,
+        "max_voltage": 125
+    },
+    "duration": {
+        "duration": 247,
+        "min_duration": 100,
+        "max_duration": 300
+    },
+    "frequency": {
+        "frequency": 14,
+        "min_frequency": 1,
+        "max_frequency": 30,
+        "pulse_period_mks": 100000
+    },
+    "qswitch": {
+        "delay": 0,
+        "min_delay": -30,
+        "max_delay": 30,
+        "pwm": 71
+    },
+    "tec": {
+        "tec_mode": 0,
+        "stabilization_temp": 28.1,
+        "min_stabilization_temp": 15,
+        "max_stabilization_temp": 40,
+        "min_range_temp": 25,
+        "max_range_temp": 30,
+        "current_temp": 0
+    },
+    "features": {
+        "pcd_21": true,
+        "jitter_stabilizer": true,
+        "stop_diode": true
+    },
+    "range_finder": {
+        "mode": false,
+        "distance": 0
+    }
+}

@@ -4,8 +4,14 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow
 from mainwindow import Ui_mainWindow
 from os import listdir
+import os
 import json
 from munch import Munch
+import can
+
+password = 'woodman'
+os.system(f"echo {password} "
+          "| sudo ip link set can0 up type can bitrate 500000")
 
 settings_path = 'settings/'
 settings_files = [f for f in listdir(settings_path) if f.endswith('json')]
@@ -14,6 +20,14 @@ for file in settings_files:
     with open(settings_path + file) as f:
         json_dict = json.load(f)
         settings.append(Munch.fromDict(json_dict))
+
+interface = 'socketcan'
+channel = 'can0'
+bitrate = 500000
+
+bus = can.ThreadSafeBus(interface=interface,
+                        channel=channel,
+                        bitrate=bitrate)
 
 
 class MainWindow(QMainWindow):
@@ -260,7 +274,7 @@ class MainWindow(QMainWindow):
         device.tec.min_range_temp = self.ui.rangeTempMinSpinBox.value()
         device.tec.max_range_temp = self.ui.rangeTempMaxSpinBox.value()
 
-    def on_save_push_button_pressed(self):
+    def on_preset_push_button_pressed(self):
         index = self.ui.presetComboBox.currentIndex()
         self.prepare_settings_values(index)
         print(settings[index], '\n')
