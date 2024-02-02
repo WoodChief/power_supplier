@@ -71,8 +71,10 @@ class MainWindow(QMainWindow):
         self.ui.presetComboBox.clear()
 
         # Current power supply settings item
-        for dev in settings:
-            self.ui.presetComboBox.addItem(dev.name)
+        # for dev in settings:
+        #     self.ui.presetComboBox.addItem(dev.name)
+        # temporarily excluded laser presets
+        self.ui.presetComboBox.addItem(settings[0].name)
 
         # Connection between widget (not accessable from designer)
         self.ui.currentValueDoubleSpinBox.valueChanged.connect(
