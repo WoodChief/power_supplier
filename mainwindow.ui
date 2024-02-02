@@ -1316,7 +1316,7 @@ QSlider::sub-page:horizontal {
       <string>Стаб. джиттера</string>
      </property>
     </widget>
-    <widget class="QLabel" name="randefinderValueLabel">
+    <widget class="QLabel" name="rangefinderValueLabel">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -1344,7 +1344,7 @@ QSlider::sub-page:horizontal {
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="randefinderLabel">
+    <widget class="QLabel" name="rangefinderLabel">
      <property name="enabled">
       <bool>true</bool>
      </property>

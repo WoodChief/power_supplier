@@ -1,0 +1,25 @@
+{
+    "interface": "socketcan",
+    "channel": "can0",
+    "bitrate": 500000,
+    "extended_id" : false,
+    "dlc": 8,
+    "command": {
+        "get_saved_settings": {
+            "mes_id": 811,
+            "byte0": 1
+        },
+        "get_current_settings": {
+            "mes_id": 811,
+            "byte0": 2
+        },
+        "get_limits": {
+            "mes_id": 811,
+            "byte0": 3
+        },
+        "save_current_settings": {
+            "mes_id": 811,
+            "byte0": 4
+        }
+    }
+}

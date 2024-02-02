@@ -8,26 +8,39 @@ import os
 import json
 from munch import Munch
 import can
+import threading
+
+
+with open('CAN.json') as f:
+    json_dict = json.load(f)
+    can_settings = Munch.fromDict(json_dict)
 
 password = 'woodman'
 os.system(f"echo {password} "
-          "| sudo ip link set can0 up type can bitrate 500000")
+          f"| sudo -S ip link set {can_settings.channel} up "
+          f"type can bitrate {can_settings.bitrate}")
 
 settings_path = 'settings/'
-settings_files = [f for f in listdir(settings_path) if f.endswith('json')]
-settings = []
+settings_files = [f for f in listdir(settings_path)
+                  if (f.endswith('json') and not f.startswith('power'))]
+
+# Make power supply settings first in the settings list
+with open('settings/power_supply_settings.json') as f:
+    settings = [Munch.fromDict(json.load(f))]
+
+# Add laser preset to the  settings list
 for file in settings_files:
     with open(settings_path + file) as f:
         json_dict = json.load(f)
         settings.append(Munch.fromDict(json_dict))
+settings = settings
 
-interface = 'socketcan'
-channel = 'can0'
-bitrate = 500000
-
-bus = can.ThreadSafeBus(interface=interface,
-                        channel=channel,
-                        bitrate=bitrate)
+bus = can.ThreadSafeBus(interface=can_settings.interface,
+                        channel=can_settings.channel,
+                        bitrate=can_settings.bitrate)
+mes = can.Message()
+mes.is_extended_id = can_settings.extended_id
+mes.dlc = can_settings.dlc
 
 
 class MainWindow(QMainWindow):
@@ -40,6 +53,11 @@ class MainWindow(QMainWindow):
         # self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowIcon(QIcon("images/logoColor.ico"))
 
+        # Threads
+        self.can_receive_thread = threading.Thread(target=self.can_receive)
+        self.can_receive_thread.daemon = True
+        self.can_receive_thread.start()
+
         # Hide widgets wich are not active
         self.ui.durationFrame.hide()
         self.ui.frequencyFrame.hide()
@@ -50,6 +68,8 @@ class MainWindow(QMainWindow):
 
         # Fill presetComboBox
         self.ui.presetComboBox.clear()
+
+        # Current power supply settings item
         for device in settings:
             self.ui.presetComboBox.addItem(device.name)
 
@@ -67,8 +87,8 @@ class MainWindow(QMainWindow):
             self.ui.rangeTempMinSpinBox.setMaximum
         )
 
-        # Load settings for the first(zero index) device
-        self.load_device(index=0)
+        # Get power supply capabilities
+        self.get_saved_settings()
 
         # Connections #
         self.ui.presetComboBox.currentIndexChanged.connect(
@@ -76,6 +96,12 @@ class MainWindow(QMainWindow):
         )
         self.ui.presetPushButton.pressed.connect(
             self.on_preset_push_button_pressed
+        )
+        self.ui.sendPushButton.pressed.connect(
+            self.on_send_push_button_pressed
+        )
+        self.ui.savePushButton.pressed.connect(
+            self.on_save_push_button_pressed
         )
 
     def on_current_spinbox_value_changed(self):
@@ -162,11 +188,10 @@ class MainWindow(QMainWindow):
         self.ui.frequencyMaxLabel.setText(
             str(device.frequency.max_frequency)
         )
-        self.ui.factDurationValueLabel.setText(
-            str(int(1 / self.ui.frequencyValueSpinBox.value() * 10**6))
-        )
+        self.ui.factDurationValueLabel.setText('none')
+
         device.frequency.pulse_period_mks = (
-            int(self.ui.factDurationValueLabel.text())
+            int(1 / self.ui.frequencyValueSpinBox.value() * 10**6)
         )
 
         # VOLTAGE #
@@ -282,6 +307,169 @@ class MainWindow(QMainWindow):
         print('Path to save settings:', file)
         with open(file, 'w') as f:
             json.dump(settings[index], f, ensure_ascii=False)
+
+    def on_send_push_button_pressed(self):
+        pass
+
+    def on_save_push_button_pressed(self):
+        command = can_settings.command.save_current_settings
+        mes.arbitration_id = command.mes_id
+        mes.data = [command.byte0]
+        bus.send(mes)
+
+    def get_saved_settings(self):
+        command = can_settings.command.get_saved_settings
+        mes.arbitration_id = command.mes_id
+        mes.data = [command.byte0]
+        bus.send(mes)
+
+    def can_parser(self):
+        response = bus.recv(0.02)
+        if response is not None:
+            data = bytes(response.data)
+            if response.arbitration_id == 830:
+                pass
+            elif response.arbitration_id == 831:
+                pass
+            elif response.arbitration_id == 832:
+                self.ui.powerSupplyNumberLabel.setText(
+                    f"Блок питания №{int.from_bytes(data[:2], 'big')}"
+                )
+                self.ui.disconnectIconLabel.hide()
+                self.ui.connectIconLabel.show()
+                state = data[2]
+                if state == 0:
+                    self.ui.stopRadioButton.setChecked(True)
+                elif state == 1:
+                    self.ui.startRadioButton.setChecked(True)
+                elif state == 2:
+                    # not implemented yet
+                    pass
+                elif state == 3:
+                    self.ui.externalTriggerRadioButton.setChecked(True)
+                elif state == 4:
+                    # Here should be adn ERROR handle
+                    pass
+
+                # not implemented yet
+                # impulse_left = int.from_bytes(data[2:4], 'big')
+
+            elif response.arbitration_id == 833:
+                self.ui.rangefinderValueLabel.setText(
+                    str(int.from_bytes(data[0:2], 'big'))
+                )
+                self.ui.tempGraphValueLabel.setText(
+                    str(int.from_bytes(data[2:4], 'big', signed=True) / 10)
+                )
+                self.ui.factDurationValueLabel.setText(
+                    str(int.from_bytes(data[6:], 'big'))
+                )
+
+            elif response.arbitration_id == 834:
+                self.ui.currentValueDoubleSpinBox.setMaximum(
+                    int.from_bytes(data[0:2], 'big') / 10
+                )
+                self.ui.currentSlider.setMaximum(
+                    int.from_bytes(data[0:2], 'big')
+                )
+                self.ui.currentMaxLabel.setText(
+                    str(int.from_bytes(data[0:2], 'big') / 10)
+                )
+                self.ui.durationValueSpinBox.setMaximum(
+                    int.from_bytes(data[2:4], 'big')
+                )
+                self.ui.durationSlider.setMaximum(
+                    int.from_bytes(data[2:4], 'big')
+                )
+                self.ui.durationMaxLabel.setText(
+                    str(int.from_bytes(data[2:4], 'big'))
+                )
+                self.ui.voltageValueDoubleSpinBox.setMinimum(
+                    int.from_bytes(data[4:6], 'big') / 10
+                )
+                self.ui.voltageValueDoubleSpinBox.setMaximum(
+                    int.from_bytes(data[6:], 'big') / 10
+                )
+
+            elif response.arbitration_id == 835:
+                min_pulse_period = int.from_bytes(data[0:3], 'big')
+                max_frequency = int(1 / min_pulse_period * 10**6)
+                self.ui.frequencyValueSpinBox.setMaximum(max_frequency)
+                self.ui.frequencySlider.setMaximum(max_frequency)
+                self.ui.frequencyMaxLabel.setText(str(max_frequency))
+                # not implemented yet
+                # max_tec_voltage = int.from_bytes(data[3], 'big')
+
+            elif response.arbitration_id == 836:
+                # the same as 813
+                self.ui.currentValueDoubleSpinBox.setValue(
+                    int.from_bytes(data[0:2], 'big') / 10
+                )
+                self.ui.durationValueSpinBox.setValue(
+                    int.from_bytes(data[2:4], 'big')
+                )
+                self.ui.voltageValueDoubleSpinBox.setValue(
+                    int.from_bytes(data[4:6], 'big') / 10
+                )
+                # not implemented yet
+                # safe_mode = data[6]
+
+            elif response.arbitration_id == 837:
+                # the same as 814
+                tec_mode = data[0]
+                if tec_mode == 0:
+                    self.ui.offTempRadioButton.setChecked(True)
+                elif tec_mode == 1:
+                    self.ui.stabTempRadioButton.setChecked(True)
+                elif tec_mode == 2:
+                    self.ui.rangeTempRadioButton.setChecked(True)
+                self.ui.stabTempDoubleSpinBox.setValue(
+                    int.from_bytes(data[1:3], 'big', signed=True) / 10
+                )
+                self.ui.rangeTempMaxSpinBox.setValue(
+                    int.from_bytes(data[3:4], 'big', signed=True)
+                )
+                self.ui.rangeTempMinSpinBox.setValue(
+                    int.from_bytes(data[4:5], 'big', signed=True)
+                )
+
+            elif response.arbitration_id == 838:
+                # the same as 815
+                self.ui.PCDCheckBox.setChecked(data[0])
+                self.ui.PWMValueSpinBox.setValue(data[1])
+                self.ui.delayValueSpinBox.setValue(
+                    int.from_bytes(data[2:3], 'big', signed=True)
+                )
+                self.ui.rangefinderCheckBox.setChecked(data[3])
+
+            elif response.arbitration_id == 839:
+                # the same as 816
+                self.ui.jitterStabCheckBox.setChecked(data[0])
+                self.ui.offFDPumpingCheckBox.setChecked(data[1])
+                # not implemented yet
+                # current_addition = data[2]
+                # current_addition_value = int.from_bytes(data[3:5],'big') / 10
+                # current_addition_time = data[5]
+
+            elif response.arbitration_id == 840:
+                # the same as 817
+                # not implemented yet
+                # pid_p = int.from_bytes(data[0:2], 'big')
+                # pid_i = int.from_bytes(data[2:4], 'big')
+                # pid_d = int.from_bytes(data[4:6], 'big')
+                # max_cooling_voltage = data[6]
+                # max_heating_voltage = data[7]
+                pass
+
+            elif response.arbitration_id == 841:
+                # the same as 818
+                # reserved
+                pass
+
+    def can_receive(self):
+        print('CAN receiver thread has started')
+        while True:
+            self.can_parser()
 
 
 if __name__ == '__main__':
