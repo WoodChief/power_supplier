@@ -152,6 +152,18 @@ class MainWindow(QMainWindow):
         self.ui.externalTriggerRadioButton.clicked.connect(
             self.on_start_stop_button_pressed
         )
+        self.ui.PCDCheckBox.clicked.connect(
+            self.on_checkbox_state_changed
+        )
+        self.ui.jitterStabCheckBox.clicked.connect(
+            self.on_checkbox_state_changed
+        )
+        self.ui.offFDPumpingCheckBox.clicked.connect(
+            self.on_checkbox_state_changed
+        )
+        self.ui.rangefinderCheckBox.clicked.connect(
+            self.on_checkbox_state_changed
+        )
 
     def on_frequency_button_pressed(self, increment):
         self.ui.frequencyValueSpinBox.setValue(
@@ -394,6 +406,11 @@ class MainWindow(QMainWindow):
     def on_start_stop_button_pressed(self):
         self.prepare_settings_values()
         self.send_812()
+
+    def on_checkbox_state_changed(self):
+        self.prepare_settings_values()
+        self.send_815()
+        self.send_816()
 
     def send_812(self):
         mes.arbitration_id = 812

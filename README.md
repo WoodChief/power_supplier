@@ -13,4 +13,4 @@ To-Do:
 - ~~send settings on "plus" and "minus" buttons pressed~~
 - ~~get serial number from device~~
 - ~~on star and stop button send message~~
-- on checkBoxes state changed send message
+- ~~on checkBoxes state changed send message~~
