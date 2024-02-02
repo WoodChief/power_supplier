@@ -367,18 +367,96 @@ class MainWindow(QMainWindow):
             json.dump(settings[index], f, ensure_ascii=False)
 
     def on_send_push_button_pressed(self):
+        self.prepare_settings_values()
+        self.send_812()
+        self.send_813()
+        self.send_814()
+        self.send_815()
+        self.send_816()
+        self.send_817()
+        self.send_818()
+
+    def send_812(self):
+        mes.arbitration_id = 812
+        if self.ui.stopRadioButton.isChecked():
+            mode = 0
+        elif self.ui.startRadioButton.isChecked():
+            mode = 1
+        # mode = 2 is not implemented yet
+        elif self.ui.externalTriggerRadioButton.isChecked():
+            mode = 3
+        pulse_period_mks = int(1 / self.ui.frequencyValueSpinBox.value() * 10**6)
+        mes.data = (
+            mode.to_bytes(1, 'big')
+            + pulse_period_mks.to_bytes(3, 'big')
+            # + b'\x00'  # should be a sequence number
+        )
+        bus.send(mes)
+
+    def send_813(self):
+        mes.arbitration_id = 813
+        mes.data = (
+            int(self.ui.currentValueDoubleSpinBox.value() * 10).to_bytes(2, 'big')
+            + self.ui.durationValueSpinBox.value().to_bytes(2, 'big')
+            + int(self.ui.voltageValueDoubleSpinBox.value() * 10).to_bytes(2, 'big')
+            # + safe_mode  # not implemented yet
+        )
+        bus.send(mes)
+
+    def send_814(self):
+        mes.arbitration_id = 814
+        if self.ui.offTempRadioButton.isChecked():
+            tec_mode = 0
+        elif self.ui.stabTempRadioButton.isChecked():
+            tec_mode = 1
+        elif self.ui.rangeTempRadioButton.isChecked():
+            tec_mode = 2
+        mes.data = (
+            tec_mode.to_bytes(1, 'big')
+            + int(self.ui.stabTempDoubleSpinBox.value() * 10)
+            .to_bytes(2, 'big')
+            + self.ui.rangeTempMaxSpinBox.value().to_bytes(1, 'big')
+            + self.ui.rangeTempMinSpinBox.value().to_bytes(1, 'big')
+        )
+        bus.send(mes)
+
+    def send_815(self):
+        mes.arbitration_id = 815
+        mes.data = (
+            self.ui.PCDCheckBox.isChecked().to_bytes(1, 'big')
+            + self.ui.PWMValueSpinBox.value().to_bytes(1, 'big')
+            + self.ui.delayValueSpinBox.value().to_bytes(1, 'big', signed=True)
+            + self.ui.rangefinderCheckBox.isChecked().to_bytes(1, 'big')
+        )
+        bus.send(mes)
+
+    def send_816(self):
+        mes.arbitration_id = 816
+        mes.data = (
+            self.ui.jitterStabCheckBox.isChecked().to_bytes(1, 'big')
+            + self.ui.offFDPumpingCheckBox.isChecked().to_bytes(1, 'big')
+            # + current_addition
+            # + current_addition_value
+            # + current_addition_time
+        )
+        bus.send(mes)
+
+    def send_817(self):
+        mes.arbitration_id = 817
+        # PID settings # not implemented yet
+        pass
+
+    def send_818(self):
         pass
 
     def on_save_push_button_pressed(self):
-        command = can_settings.command.save_current_settings
-        mes.arbitration_id = command.mes_id
-        mes.data = [command.byte0]
+        mes.arbitration_id = 811
+        mes.data = (4).to_bytes(1, 'big')
         bus.send(mes)
 
     def get_saved_settings(self):
-        command = can_settings.command.get_saved_settings
-        mes.arbitration_id = command.mes_id
-        mes.data = [command.byte0]
+        mes.arbitration_id = 811
+        mes.data = (1).to_bytes(1, 'big')
         bus.send(mes)
 
     def can_parser(self):
