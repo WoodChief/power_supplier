@@ -86,8 +86,47 @@ class MainWindow(QMainWindow):
         self.ui.rangeTempMaxSpinBox.valueChanged.connect(
             self.ui.rangeTempMinSpinBox.setMaximum
         )
+        self.ui.currentMinusFivePushButton.pressed.connect(
+            lambda: self.on_current_button_pressed(-5)
+        )
+        self.ui.currentMinusOnePushButton.pressed.connect(
+            lambda: self.on_current_button_pressed(-1)
+        )
+        self.ui.currentPlusOnePushButton.pressed.connect(
+            lambda: self.on_current_button_pressed(1)
+        )
+        self.ui.currentPlusFivePushButton.pressed.connect(
+            lambda: self.on_current_button_pressed(5)
+        )
+        self.ui.durationMinusTwentyPushButton.pressed.connect(
+            lambda: self.on_duration_button_pressed(-20)
+        )
+        self.ui.durationMinusTenPushButton.pressed.connect(
+            lambda: self.on_duration_button_pressed(-10)
+        )
+        self.ui.durationPlusTenPushButton.pressed.connect(
+            lambda: self.on_duration_button_pressed(10)
+        )
+        self.ui.durationPlusTwentyPushButton.pressed.connect(
+            lambda: self.on_duration_button_pressed(20)
+        )
+        self.ui.frequencyMinusFivePushButton.pressed.connect(
+            lambda: self.on_frequency_button_pressed(-5)
+        )
+        self.ui.frequencyMinusOnePushButton.pressed.connect(
+            lambda: self.on_frequency_button_pressed(-1)
+        )
+        self.ui.frequencyPlusOnePushButton.pressed.connect(
+            lambda: self.on_frequency_button_pressed(1)
+        )
+        self.ui.frequencyPlusFivePushButton.pressed.connect(
+            lambda: self.on_frequency_button_pressed(5)
+        )
 
-        # Get power supply capabilities
+        # Load power supply settings
+        self.load_device(0)
+
+        # Get power supply capabilities and correct settings
         self.get_saved_settings()
 
         # Connections #
@@ -102,6 +141,21 @@ class MainWindow(QMainWindow):
         )
         self.ui.savePushButton.pressed.connect(
             self.on_save_push_button_pressed
+        )
+
+    def on_frequency_button_pressed(self, increment):
+        self.ui.frequencyValueSpinBox.setValue(
+            self.ui.frequencyValueSpinBox.value() + increment
+        )
+
+    def on_duration_button_pressed(self, increment):
+        self.ui.durationValueSpinBox.setValue(
+            self.ui.durationValueSpinBox.value() + increment
+        )
+
+    def on_current_button_pressed(self, increment):
+        self.ui.currentValueDoubleSpinBox.setValue(
+            self.ui.currentValueDoubleSpinBox.value() + increment
         )
 
     def on_current_spinbox_value_changed(self):
@@ -220,7 +274,7 @@ class MainWindow(QMainWindow):
         )
 
         # RANGE FINDER #
-        self.ui.randefinderValueLabel.setText('0')
+        self.ui.rangefinderValueLabel.setText('0')
         self.ui.rangefinderCheckBox.setChecked(
             device.range_finder.mode
         )
