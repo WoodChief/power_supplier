@@ -143,21 +143,36 @@ class MainWindow(QMainWindow):
         self.ui.savePushButton.pressed.connect(
             self.on_save_push_button_pressed
         )
+        self.ui.stopRadioButton.clicked.connect(
+            self.on_start_stop_button_pressed
+        )
+        self.ui.startRadioButton.clicked.connect(
+            self.on_start_stop_button_pressed
+        )
+        self.ui.externalTriggerRadioButton.clicked.connect(
+            self.on_start_stop_button_pressed
+        )
 
     def on_frequency_button_pressed(self, increment):
         self.ui.frequencyValueSpinBox.setValue(
             self.ui.frequencyValueSpinBox.value() + increment
         )
+        self.prepare_settings_values()
+        self.send_812()
 
     def on_duration_button_pressed(self, increment):
         self.ui.durationValueSpinBox.setValue(
             self.ui.durationValueSpinBox.value() + increment
         )
+        self.prepare_settings_values()
+        self.send_813()
 
     def on_current_button_pressed(self, increment):
         self.ui.currentValueDoubleSpinBox.setValue(
             self.ui.currentValueDoubleSpinBox.value() + increment
         )
+        self.prepare_settings_values()
+        self.send_813()
 
     def on_current_spinbox_value_changed(self):
         self.ui.currentSlider.setValue(
@@ -376,6 +391,10 @@ class MainWindow(QMainWindow):
         self.send_817()
         self.send_818()
 
+    def on_start_stop_button_pressed(self):
+        self.prepare_settings_values()
+        self.send_812()
+
     def send_812(self):
         mes.arbitration_id = 812
         if self.ui.stopRadioButton.isChecked():
@@ -388,6 +407,7 @@ class MainWindow(QMainWindow):
         pulse_period_mks = int(1 / self.ui.frequencyValueSpinBox.value() * 10**6)
         mes.data = (
             mode.to_bytes(1, 'big')
+            + b'\x00'  # unlimited number of pulses
             + pulse_period_mks.to_bytes(3, 'big')
             # + b'\x00'  # should be a sequence number
         )
