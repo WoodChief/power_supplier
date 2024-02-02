@@ -21,19 +21,20 @@ os.system(f"echo {password} "
           f"type can bitrate {can_settings.bitrate}")
 
 settings_path = 'settings/'
-settings_files = [f for f in listdir(settings_path)
-                  if (f.endswith('json') and not f.startswith('power'))]
-
 # Make power supply settings first in the settings list
-with open('settings/power_supply_settings.json') as f:
-    settings = [Munch.fromDict(json.load(f))]
+power_settings_file = 'power_supply_settings.json'
 
-# Add laser preset to the  settings list
+settings_files = [power_settings_file]
+settings_files = settings_files + [f for f in listdir(settings_path)
+                                   if (f.endswith('json')
+                                       and not f.startswith('power'))]
+settings = []
+
+# Add presets to the  settings list
 for file in settings_files:
     with open(settings_path + file) as f:
         json_dict = json.load(f)
         settings.append(Munch.fromDict(json_dict))
-settings = settings
 
 bus = can.ThreadSafeBus(interface=can_settings.interface,
                         channel=can_settings.channel,
@@ -70,8 +71,8 @@ class MainWindow(QMainWindow):
         self.ui.presetComboBox.clear()
 
         # Current power supply settings item
-        for device in settings:
-            self.ui.presetComboBox.addItem(device.name)
+        for dev in settings:
+            self.ui.presetComboBox.addItem(dev.name)
 
         # Connection between widget (not accessable from designer)
         self.ui.currentValueDoubleSpinBox.valueChanged.connect(
@@ -169,193 +170,196 @@ class MainWindow(QMainWindow):
         )
 
     def load_device(self, index):
-        device = settings[index]
+        self.device = settings[index]
 
         # CURRENT #
         self.ui.currentValueDoubleSpinBox.setValue(
-            device.current.current
+            self.device.current.current
         )
         self.ui.currentValueDoubleSpinBox.setMinimum(
-            device.current.min_current
+            self.device.current.min_current
         )
         self.ui.currentValueDoubleSpinBox.setMaximum(
-            device.current.max_current
+            self.device.current.max_current
         )
         self.ui.currentSlider.setValue(
-            device.current.current * 10
+            self.device.current.current * 10
         )
         self.ui.currentSlider.setMinimum(
-            device.current.min_current * 10
+            self.device.current.min_current * 10
         )
         self.ui.currentSlider.setMaximum(
-            device.current.max_current * 10
+            self.device.current.max_current * 10
         )
         self.ui.currentMinLabel.setText(
-            str(device.current.min_current)
+            str(self.device.current.min_current)
         )
         self.ui.currentMaxLabel.setText(
-            str(device.current.max_current)
+            str(self.device.current.max_current)
         )
 
         # DURATION #
         self.ui.durationValueSpinBox.setValue(
-            device.duration.duration
+            self.device.duration.duration
         )
         self.ui.durationValueSpinBox.setMinimum(
-            device.duration.min_duration
+            self.device.duration.min_duration
         )
         self.ui.durationValueSpinBox.setMaximum(
-            device.duration.max_duration
+            self.device.duration.max_duration
         )
         self.ui.durationSlider.setMinimum(
-            device.duration.min_duration
+            self.device.duration.min_duration
         )
         self.ui.durationSlider.setMaximum(
-            device.duration.max_duration
+            self.device.duration.max_duration
         )
         self.ui.durationMinLabel.setText(
-            str(device.duration.min_duration)
+            str(self.device.duration.min_duration)
         )
         self.ui.durationMaxLabel.setText(
-            str(device.duration.max_duration)
+            str(self.device.duration.max_duration)
         )
 
         # FREQUENCY #
         self.ui.frequencyValueSpinBox.setValue(
-            device.frequency.frequency
+            self.device.frequency.frequency
         )
         self.ui.frequencyValueSpinBox.setMinimum(
-            device.frequency.min_frequency
+            self.device.frequency.min_frequency
         )
         self.ui.frequencyValueSpinBox.setMaximum(
-            device.frequency.max_frequency
+            self.device.frequency.max_frequency
         )
         self.ui.frequencySlider.setMinimum(
-            device.frequency.min_frequency
+            self.device.frequency.min_frequency
         )
         self.ui.frequencySlider.setMaximum(
-            device.frequency.max_frequency
+            self.device.frequency.max_frequency
         )
         self.ui.frequencyMinLabel.setText(
-            str(device.frequency.min_frequency)
+            str(self.device.frequency.min_frequency)
         )
         self.ui.frequencyMaxLabel.setText(
-            str(device.frequency.max_frequency)
+            str(self.device.frequency.max_frequency)
         )
         self.ui.factDurationValueLabel.setText('none')
 
-        device.frequency.pulse_period_mks = (
+        self.device.frequency.pulse_period_mks = (
             int(1 / self.ui.frequencyValueSpinBox.value() * 10**6)
         )
 
         # VOLTAGE #
         self.ui.voltageValueDoubleSpinBox.setValue(
-            device.voltage.voltage
+            self.device.voltage.voltage
         )
         self.ui.voltageValueDoubleSpinBox.setMinimum(
-            device.voltage.min_voltage
+            self.device.voltage.min_voltage
         )
         self.ui.voltageValueDoubleSpinBox.setMaximum(
-            device.voltage.max_voltage
+            self.device.voltage.max_voltage
         )
 
         # QSWITCH #
         self.ui.delayValueSpinBox.setValue(
-            device.qswitch.delay
+            self.device.qswitch.delay
         )
         self.ui.delayValueSpinBox.setMinimum(
-            device.qswitch.min_delay
+            self.device.qswitch.min_delay
         )
         self.ui.delayValueSpinBox.setMaximum(
-            device.qswitch.max_delay
+            self.device.qswitch.max_delay
         )
         self.ui.PWMValueSpinBox.setValue(
-            device.qswitch.pwm
+            self.device.qswitch.pwm
         )
 
         # RANGE FINDER #
         self.ui.rangefinderValueLabel.setText('0')
         self.ui.rangefinderCheckBox.setChecked(
-            device.range_finder.mode
+            self.device.range_finder.mode
         )
 
         # TEC #
         self.ui.stabTempDoubleSpinBox.setValue(
-            device.tec.stabilization_temp
+            self.device.tec.stabilization_temp
         )
         self.ui.stabTempDoubleSpinBox.setMinimum(
-            device.tec.min_stabilization_temp
+            self.device.tec.min_stabilization_temp
         )
         self.ui.stabTempDoubleSpinBox.setMaximum(
-            device.tec.max_stabilization_temp
+            self.device.tec.max_stabilization_temp
         )
         self.ui.rangeTempMinSpinBox.setValue(
-            device.tec.min_range_temp
+            self.device.tec.min_range_temp
         )
         self.ui.rangeTempMinSpinBox.setMinimum(
-            device.tec.min_stabilization_temp
+            self.device.tec.min_stabilization_temp
         )
         self.ui.rangeTempMinSpinBox.setMaximum(
-            device.tec.max_range_temp
+            self.device.tec.max_range_temp
         )
         self.ui.rangeTempMaxSpinBox.setValue(
-            device.tec.max_range_temp
+            self.device.tec.max_range_temp
         )
         self.ui.rangeTempMaxSpinBox.setMinimum(
-            device.tec.min_range_temp
+            self.device.tec.min_range_temp
         )
         self.ui.rangeTempMaxSpinBox.setMaximum(
-            device.tec.max_stabilization_temp
+            self.device.tec.max_stabilization_temp
         )
         self.ui.tempGraphValueLabel.setText(
-            str(device.tec.current_temp)
+            str(self.device.tec.current_temp)
         )
 
-        if device.tec.tec_mode == 0:
+        if self.device.tec.tec_mode == 0:
             self.ui.offTempRadioButton.click()
-        elif device.tec.tec_mode == 1:
+        elif self.device.tec.tec_mode == 1:
             self.ui.stabTempRadioButton.click()
-        elif device.tec.tec_mode == 2:
+        elif self.device.tec.tec_mode == 2:
             self.ui.rangeTempRadioButton.click()
 
         # FEATURES #
         self.ui.PCDCheckBox.setChecked(
-            device.features.pcd_21
+            self.device.features.pcd_21
         )
         self.ui.jitterStabCheckBox.setChecked(
-            device.features.jitter_stabilizer
+            self.device.features.jitter_stabilizer
         )
         self.ui.offFDPumpingCheckBox.setChecked(
-            device.features.stop_diode
+            self.device.features.stop_diode
         )
 
-    def prepare_settings_values(self, index):
-        device = settings[index]
-        device.current.current = self.ui.currentValueDoubleSpinBox.value()
-        device.duration.duration = self.ui.durationValueSpinBox.value()
-        device.frequency.frequency = self.ui.frequencyValueSpinBox.value()
-        device.voltage.voltage = self.ui.voltageValueDoubleSpinBox.value()
-        device.qswitch.delay = self.ui.delayValueSpinBox.value()
-        device.qswitch.pwm = self.ui.PWMValueSpinBox.value()
-        device.features.pcd_21 = self.ui.PCDCheckBox.isChecked()
-        device.features.jitter_stabilizer = (
+    def prepare_settings_values(self):
+        self.device.current.current = self.ui.currentValueDoubleSpinBox.value()
+        self.device.duration.duration = self.ui.durationValueSpinBox.value()
+        self.device.frequency.frequency = self.ui.frequencyValueSpinBox.value()
+        self.device.voltage.voltage = self.ui.voltageValueDoubleSpinBox.value()
+        self.device.qswitch.delay = self.ui.delayValueSpinBox.value()
+        self.device.qswitch.pwm = self.ui.PWMValueSpinBox.value()
+        self.device.features.pcd_21 = self.ui.PCDCheckBox.isChecked()
+        self.device.features.jitter_stabilizer = (
             self.ui.jitterStabCheckBox.isChecked()
             )
-        device.features.stop_diode = self.ui.offFDPumpingCheckBox.isChecked()
-        device.range_finder.mode = self.ui.rangefinderCheckBox.isChecked()
+        self.device.features.stop_diode = (
+            self.ui.offFDPumpingCheckBox.isChecked()
+            )
+        self.device.range_finder.mode = self.ui.rangefinderCheckBox.isChecked()
         if self.ui.offTempRadioButton.isChecked():
-            device.tec.tec_mode = 0
+            self.device.tec.tec_mode = 0
         elif self.ui.stabTempRadioButton.isChecked():
-            device.tec.tec_mode = 1
+            self.device.tec.tec_mode = 1
         elif self.ui.rangeTempRadioButton.isChecked():
-            device.tec.tec_mode = 2
-        device.tec.stabilization_temp = self.ui.stabTempDoubleSpinBox.value()
-        device.tec.min_range_temp = self.ui.rangeTempMinSpinBox.value()
-        device.tec.max_range_temp = self.ui.rangeTempMaxSpinBox.value()
+            self.device.tec.tec_mode = 2
+        self.device.tec.stabilization_temp = (
+            self.ui.stabTempDoubleSpinBox.value()
+            )
+        self.device.tec.min_range_temp = self.ui.rangeTempMinSpinBox.value()
+        self.device.tec.max_range_temp = self.ui.rangeTempMaxSpinBox.value()
 
     def on_preset_push_button_pressed(self):
         index = self.ui.presetComboBox.currentIndex()
-        self.prepare_settings_values(index)
+        self.prepare_settings_values()
         print(settings[index], '\n')
         file = settings_path + settings_files[index]
         print('Path to save settings:', file)

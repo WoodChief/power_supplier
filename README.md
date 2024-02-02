@@ -8,7 +8,7 @@ To-Do:
 - ~~open canBus connection~~
 - ~~parsing for incoming can messages~~
 - ~~"plus" and "minus" buttons behavior~~
-- receive current settings from power supply first
+- ~~receive current settings from power supply first~~
 - send whole settings on "send" button pressed
 - send settings on "plus" and "minus" buttons pressed
 - ~~get serial number from device~~
