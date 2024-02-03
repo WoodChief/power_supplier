@@ -16,23 +16,30 @@ with open('CAN.json') as f:
     json_dict = json.load(f)
     can_settings = Munch.fromDict(json_dict)[os.name]
 
-if os.name == 'posix':
-    password = 'woodman'
-    os.system(f"echo {password} "
-              f"| sudo -S ip link set {can_settings.channel} up "
-              f"type can bitrate {can_settings.bitrate}")
-    bus = can.Bus(interface=can_settings.interface,
-                  channel=can_settings.channel,
-                  bitrate=can_settings.bitrate)
-elif os.name == 'nt':
-    dev = usb.core.find(idVendor=0x1d50, idProduct=0x606f)
-    bus = can.Bus(
-        interface=can_settings.interface,
-        channel=dev.product,
-        bus=dev.bus,
-        address=dev.address,
-        bitrate=can_settings.bitrate
-    )
+can_connection_event = threading.Event()
+can_connection_event.clear()
+try:
+    if os.name == 'posix':
+        password = 'woodman'
+        os.system(f"echo {password} "
+                  f"| sudo -S ip link set {can_settings.channel} up "
+                  f"type can bitrate {can_settings.bitrate}")
+        bus = can.Bus(interface=can_settings.interface,
+                      channel=can_settings.channel,
+                      bitrate=can_settings.bitrate)
+    elif os.name == 'nt':
+        dev = usb.core.find(idVendor=0x1d50, idProduct=0x606f)
+        bus = can.Bus(
+            interface=can_settings.interface,
+            channel=dev.product,
+            bus=dev.bus,
+            address=dev.address,
+            bitrate=can_settings.bitrate
+        )
+        can_connection_event.set()
+except AttributeError:
+    print("Please connect dedicated USB-CAN interface!")
+
 
 mes = can.Message()
 mes.is_extended_id = can_settings.extended_id
@@ -439,6 +446,16 @@ class MainWindow(QMainWindow):
         # self.prepare_settings_values()
         self.send_814()
 
+    def send_can(self):
+        if can_connection_event.is_set():
+            bus.send(mes)
+        else:
+            self.ui.powerSupplyNumberLabel.setText(
+                'Ошибка CAN'
+            )
+            self.ui.powerSupplyNumberLabel.setStyleSheet(
+                u"QLabel {color: 'red'}")
+
     def send_812(self):
         mes.arbitration_id = 812
         if self.ui.stopRadioButton.isChecked():
@@ -456,7 +473,7 @@ class MainWindow(QMainWindow):
             + pulse_period_mks.to_bytes(3, 'big')
             # + b'\x00'  # should be a sequence number
         )
-        bus.send(mes)
+        self.send_can()
 
     def send_813(self):
         mes.arbitration_id = 813
@@ -468,7 +485,7 @@ class MainWindow(QMainWindow):
             .to_bytes(2, 'big')
             # + safe_mode  # not implemented yet
         )
-        bus.send(mes)
+        self.send_can()
 
     def send_814(self):
         mes.arbitration_id = 814
@@ -485,7 +502,7 @@ class MainWindow(QMainWindow):
             + self.ui.rangeTempMaxSpinBox.value().to_bytes(1, 'big')
             + self.ui.rangeTempMinSpinBox.value().to_bytes(1, 'big')
         )
-        bus.send(mes)
+        self.send_can()
 
     def send_815(self):
         mes.arbitration_id = 815
@@ -495,7 +512,7 @@ class MainWindow(QMainWindow):
             + self.ui.delayValueSpinBox.value().to_bytes(1, 'big', signed=True)
             + self.ui.rangefinderCheckBox.isChecked().to_bytes(1, 'big')
         )
-        bus.send(mes)
+        self.send_can()
 
     def send_816(self):
         mes.arbitration_id = 816
@@ -506,7 +523,7 @@ class MainWindow(QMainWindow):
             # + current_addition_value
             # + current_addition_time
         )
-        bus.send(mes)
+        self.send_can()
 
     def send_817(self):
         mes.arbitration_id = 817
@@ -519,12 +536,12 @@ class MainWindow(QMainWindow):
     def on_save_push_button_pressed(self):
         mes.arbitration_id = 811
         mes.data = list((4).to_bytes(1, 'big'))
-        bus.send(mes)
+        self.send_can()
 
     def get_saved_settings(self):
         mes.arbitration_id = 811
         mes.data = list((1).to_bytes(1, 'big'))
-        bus.send(mes)
+        self.send_can()
 
     def can_parser(self):
         response = bus.recv(0.02)
@@ -670,12 +687,14 @@ class MainWindow(QMainWindow):
                 pass
 
     def can_receive(self):
-        print('CAN receiver thread has started')
-        while True:
-            self.can_parser()
+        if can_connection_event.is_set():
+            print('CAN receiver thread has started')
+            while True:
+                self.can_parser()
 
     def closeEvent(self, event):
-        bus.shutdown()
+        if can_connection_event.is_set():
+            bus.shutdown()
         event.accept()
 
 
