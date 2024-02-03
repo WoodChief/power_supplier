@@ -178,6 +178,15 @@ class MainWindow(QMainWindow):
         self.ui.rangefinderCheckBox.clicked.connect(
             self.on_checkbox_state_changed
         )
+        self.ui.offTempRadioButton.clicked.connect(
+            self.on_tec_mode_changed
+        )
+        self.ui.stabTempRadioButton.clicked.connect(
+            self.on_tec_mode_changed
+        )
+        self.ui.rangeTempRadioButton.clicked.connect(
+            self.on_tec_mode_changed
+        )
 
     def on_frequency_button_pressed(self, increment):
         self.ui.frequencyValueSpinBox.setValue(
@@ -425,6 +434,10 @@ class MainWindow(QMainWindow):
         self.prepare_settings_values()
         self.send_815()
         self.send_816()
+
+    def on_tec_mode_changed(self):
+        # self.prepare_settings_values()
+        self.send_814()
 
     def send_812(self):
         mes.arbitration_id = 812

@@ -14,3 +14,5 @@ To-Do:
 - ~~get serial number from device~~
 - ~~on star and stop button send message~~
 - ~~on checkBoxes state changed send message~~
+- ~~choose can interface depended on OS~~
+- ~~send can message on tec mode changed~~
