@@ -8,6 +8,7 @@ import os
 import json
 from munch import Munch
 import can
+import can.interfaces.gs_usb
 import threading
 import usb
 
@@ -29,8 +30,7 @@ try:
                       bitrate=can_settings.bitrate)
     elif os.name == 'nt':
         dev = usb.core.find(idVendor=0x1d50, idProduct=0x606f)
-        bus = can.Bus(
-            interface=can_settings.interface,
+        bus = can.interfaces.gs_usb.GsUsbBus(
             channel=dev.product,
             bus=dev.bus,
             address=dev.address,
