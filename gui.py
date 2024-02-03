@@ -9,17 +9,36 @@ import json
 from munch import Munch
 import can
 import threading
+import usb
 
-
+# CAN bus init #
 with open('CAN.json') as f:
     json_dict = json.load(f)
-    can_settings = Munch.fromDict(json_dict)
+    can_settings = Munch.fromDict(json_dict)[os.name]
 
-password = 'woodman'
-os.system(f"echo {password} "
-          f"| sudo -S ip link set {can_settings.channel} up "
-          f"type can bitrate {can_settings.bitrate}")
+if os.name == 'posix':
+    password = 'woodman'
+    os.system(f"echo {password} "
+              f"| sudo -S ip link set {can_settings.channel} up "
+              f"type can bitrate {can_settings.bitrate}")
+    bus = can.Bus(interface=can_settings.interface,
+                  channel=can_settings.channel,
+                  bitrate=can_settings.bitrate)
+elif os.name == 'nt':
+    dev = usb.core.find(idVendor=0x1d50, idProduct=0x606f)
+    bus = can.Bus(
+        interface=can_settings.interface,
+        channel=dev.product,
+        bus=dev.bus,
+        address=dev.address,
+        bitrate=can_settings.bitrate
+    )
 
+mes = can.Message()
+mes.is_extended_id = can_settings.extended_id
+mes.dlc = can_settings.dlc
+
+# Power supply presets init #
 settings_path = 'settings/'
 # Make power supply settings first in the settings list
 power_settings_file = 'power_supply_settings.json'
@@ -35,13 +54,6 @@ for file in settings_files:
     with open(settings_path + file) as f:
         json_dict = json.load(f)
         settings.append(Munch.fromDict(json_dict))
-
-bus = can.ThreadSafeBus(interface=can_settings.interface,
-                        channel=can_settings.channel,
-                        bitrate=can_settings.bitrate)
-mes = can.Message()
-mes.is_extended_id = can_settings.extended_id
-mes.dlc = can_settings.dlc
 
 
 class MainWindow(QMainWindow):
@@ -423,8 +435,9 @@ class MainWindow(QMainWindow):
         # mode = 2 is not implemented yet
         elif self.ui.externalTriggerRadioButton.isChecked():
             mode = 3
-        pulse_period_mks = int(1 / self.ui.frequencyValueSpinBox.value() * 10**6)
-        mes.data = (
+        pulse_period_mks = int(1 / self.ui.frequencyValueSpinBox
+                               .value() * 10**6)
+        mes.data = list(
             mode.to_bytes(1, 'big')
             + b'\x00'  # unlimited number of pulses
             + pulse_period_mks.to_bytes(3, 'big')
@@ -434,10 +447,12 @@ class MainWindow(QMainWindow):
 
     def send_813(self):
         mes.arbitration_id = 813
-        mes.data = (
-            int(self.ui.currentValueDoubleSpinBox.value() * 10).to_bytes(2, 'big')
+        mes.data = list(
+            int(self.ui.currentValueDoubleSpinBox.value() * 10)
+            .to_bytes(2, 'big')
             + self.ui.durationValueSpinBox.value().to_bytes(2, 'big')
-            + int(self.ui.voltageValueDoubleSpinBox.value() * 10).to_bytes(2, 'big')
+            + int(self.ui.voltageValueDoubleSpinBox.value() * 10)
+            .to_bytes(2, 'big')
             # + safe_mode  # not implemented yet
         )
         bus.send(mes)
@@ -450,7 +465,7 @@ class MainWindow(QMainWindow):
             tec_mode = 1
         elif self.ui.rangeTempRadioButton.isChecked():
             tec_mode = 2
-        mes.data = (
+        mes.data = list(
             tec_mode.to_bytes(1, 'big')
             + int(self.ui.stabTempDoubleSpinBox.value() * 10)
             .to_bytes(2, 'big')
@@ -461,7 +476,7 @@ class MainWindow(QMainWindow):
 
     def send_815(self):
         mes.arbitration_id = 815
-        mes.data = (
+        mes.data = list(
             self.ui.PCDCheckBox.isChecked().to_bytes(1, 'big')
             + self.ui.PWMValueSpinBox.value().to_bytes(1, 'big')
             + self.ui.delayValueSpinBox.value().to_bytes(1, 'big', signed=True)
@@ -471,7 +486,7 @@ class MainWindow(QMainWindow):
 
     def send_816(self):
         mes.arbitration_id = 816
-        mes.data = (
+        mes.data = list(
             self.ui.jitterStabCheckBox.isChecked().to_bytes(1, 'big')
             + self.ui.offFDPumpingCheckBox.isChecked().to_bytes(1, 'big')
             # + current_addition
@@ -490,12 +505,12 @@ class MainWindow(QMainWindow):
 
     def on_save_push_button_pressed(self):
         mes.arbitration_id = 811
-        mes.data = (4).to_bytes(1, 'big')
+        mes.data = list((4).to_bytes(1, 'big'))
         bus.send(mes)
 
     def get_saved_settings(self):
         mes.arbitration_id = 811
-        mes.data = (1).to_bytes(1, 'big')
+        mes.data = list((1).to_bytes(1, 'big'))
         bus.send(mes)
 
     def can_parser(self):
@@ -645,6 +660,10 @@ class MainWindow(QMainWindow):
         print('CAN receiver thread has started')
         while True:
             self.can_parser()
+
+    def closeEvent(self, event):
+        bus.shutdown()
+        event.accept()
 
 
 if __name__ == '__main__':

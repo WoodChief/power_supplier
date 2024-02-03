@@ -1,7 +1,15 @@
 {
+    "posix": {
     "interface": "socketcan",
     "channel": "can0",
     "bitrate": 500000,
-    "extended_id" : false,
+    "extended_id": false,
     "dlc": 8
+    },
+    "nt": {
+        "interface": "gs_usb",
+        "bitrate": 500000,
+        "extended_id": false,
+        "dlc": 8  
+    }
 }

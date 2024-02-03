@@ -19,7 +19,7 @@
         "frequency": 10,
         "min_frequency": 1,
         "max_frequency": 30,
-        "pulse_period_mks":  0
+        "pulse_period_mks": 0
     },
     "qswitch": {
         "delay": 0,
@@ -28,7 +28,7 @@
         "pwm": 95
     },
     "tec": {
-        "tec_mode" : 0,
+        "tec_mode": 0,
         "stabilization_temp": 30.0,
         "min_stabilization_temp": 15,
         "max_stabilization_temp": 45,
@@ -42,7 +42,7 @@
         "stop_diode": false
     },
     "range_finder": {
-        "mode" : false,
+        "mode": false,
         "distance": 0
     }
 }
