@@ -51,7 +51,7 @@ settings = []
 
 # Add presets to the  settings list
 for file in settings_files:
-    with open(settings_path + file) as f:
+    with open(settings_path + file, encoding='utf-8') as f:
         json_dict = json.load(f)
         settings.append(Munch.fromDict(json_dict))
 
@@ -413,7 +413,7 @@ class MainWindow(QMainWindow):
         print(settings[index], '\n')
         file = settings_path + settings_files[index]
         print('Path to save settings:', file)
-        with open(file, 'w') as f:
+        with open(file, 'w', encoding='utf-8') as f:
             json.dump(settings[index], f, ensure_ascii=False)
 
     def on_send_push_button_pressed(self):
