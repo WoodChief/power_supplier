@@ -1,7 +1,7 @@
 
 import sys
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
 from mainwindow import Ui_mainWindow
 from os import listdir
 import os
@@ -95,6 +95,12 @@ class MainWindow(QMainWindow):
         # temporarily excluded laser presets
         self.ui.presetComboBox.addItem(settings[0].name)
 
+        # Load power supply settings
+        self.load_device(0)
+
+        # Get power supply capabilities and correct settings
+        self.get_saved_settings()
+
         # Connection between widget (not accessable from designer)
         self.ui.currentValueDoubleSpinBox.valueChanged.connect(
             self.on_current_spinbox_value_changed
@@ -145,12 +151,6 @@ class MainWindow(QMainWindow):
             lambda: self.on_frequency_button_pressed(5)
         )
 
-        # Load power supply settings
-        self.load_device(0)
-
-        # Get power supply capabilities and correct settings
-        self.get_saved_settings()
-
         # Connections #
         self.ui.presetComboBox.currentIndexChanged.connect(
             lambda: self.load_device(self.ui.presetComboBox.currentIndex())
@@ -194,6 +194,33 @@ class MainWindow(QMainWindow):
         self.ui.rangeTempRadioButton.clicked.connect(
             self.on_tec_mode_changed
         )
+        self.ui.durationValueSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.durationValueSpinBox)
+        )
+        self.ui.frequencyValueSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.frequencyValueSpinBox)
+        )
+        self.ui.voltageValueDoubleSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.voltageValueDoubleSpinBox)
+        )
+        self.ui.delayValueSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.voltageValueDoubleSpinBox)
+        )
+        self.ui.delayValueSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.delayValueSpinBox)
+        )
+        self.ui.PWMValueSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.PWMValueSpinBox)
+        )
+        self.ui.stabTempDoubleSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.stabTempDoubleSpinBox)
+        )
+        self.ui.rangeTempMinSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.rangeTempMinSpinBox)
+        )
+        self.ui.rangeTempMaxSpinBox.valueChanged.connect(
+            lambda: self.set_highlighting(self.ui.rangeTempMaxSpinBox)
+        )
 
     def on_frequency_button_pressed(self, increment):
         self.ui.frequencyValueSpinBox.setValue(
@@ -220,6 +247,7 @@ class MainWindow(QMainWindow):
         self.ui.currentSlider.setValue(
             int(self.ui.currentValueDoubleSpinBox.value() * 10)
         )
+        self.set_highlighting(self.ui.currentValueDoubleSpinBox)
 
     def on_current_slider_value_change(self):
         self.ui.currentValueDoubleSpinBox.setValue(
@@ -432,10 +460,14 @@ class MainWindow(QMainWindow):
         self.send_816()
         self.send_817()
         self.send_818()
+        self.reset_highlighting()
 
     def on_start_stop_button_pressed(self):
         self.prepare_settings_values()
         self.send_812()
+        self.ui.currentValueDoubleSpinBox.setStyleSheet(u"")
+        self.ui.durationValueSpinBox.setStyleSheet(u"")
+        self.ui.frequencyValueSpinBox.setStyleSheet(u"")
 
     def on_checkbox_state_changed(self):
         self.prepare_settings_values()
@@ -685,6 +717,23 @@ class MainWindow(QMainWindow):
                 # the same as 818
                 # reserved
                 pass
+
+    def set_highlighting(self, widget: QWidget):
+        widget.setStyleSheet(
+            u"QSpinBox { color: rgb(159, 0, 0); }"
+            u"QDoubleSpinBox { color: rgb(159, 0, 0); }"
+        )
+
+    def reset_highlighting(self):
+        self.ui.currentValueDoubleSpinBox.setStyleSheet(u"")
+        self.ui.durationValueSpinBox.setStyleSheet(u"")
+        self.ui.frequencyValueSpinBox.setStyleSheet(u"")
+        self.ui.voltageValueDoubleSpinBox.setStyleSheet(u"")
+        self.ui.delayValueSpinBox.setStyleSheet(u"")
+        self.ui.PWMValueSpinBox.setStyleSheet(u"")
+        self.ui.stabTempDoubleSpinBox.setStyleSheet(u"")
+        self.ui.rangeTempMinSpinBox.setStyleSheet(u"")
+        self.ui.rangeTempMaxSpinBox.setStyleSheet(u"")
 
     def can_receive(self):
         if can_connection_event.is_set():
