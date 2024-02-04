@@ -242,6 +242,7 @@ class MainWindow(QMainWindow):
         self.ui.frequencyValueSpinBox.setValue(
             self.ui.frequencyValueSpinBox.value() + increment
         )
+        self.ui.frequencyValueSpinBox.setStyleSheet("u")
         self.prepare_settings_values()
         self.send_812()
 
@@ -249,6 +250,7 @@ class MainWindow(QMainWindow):
         self.ui.durationValueSpinBox.setValue(
             self.ui.durationValueSpinBox.value() + increment
         )
+        self.ui.durationValueSpinBox.setStyleSheet(u"")
         self.prepare_settings_values()
         self.send_813()
 
@@ -256,6 +258,7 @@ class MainWindow(QMainWindow):
         self.ui.currentValueDoubleSpinBox.setValue(
             self.ui.currentValueDoubleSpinBox.value() + increment
         )
+        self.ui.currentValueDoubleSpinBox.setStyleSheet(u"")
         self.prepare_settings_values()
         self.send_813()
 
