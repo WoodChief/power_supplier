@@ -2,7 +2,9 @@
 import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
+from PySide6.QtCore import QRectF
 from mainwindow import Ui_mainWindow
+from widgets import TempGraphWidget
 from os import listdir
 import os
 import json
@@ -72,6 +74,13 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         # self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowIcon(QIcon("images/logoColor.ico"))
+
+        self.temp_graph = TempGraphWidget(self.ui.tempGraphFrame)
+        self.temp_graph.setGeometry(-10, 15, 200, 100)
+        self.temp_graph.chart.setPlotArea(QRectF(0, 0, 200, 100))
+
+        # Supporting variables
+        self.prev_mes = can.Message()
 
         # Threads
         self.can_receive_thread = threading.Thread(target=self.can_receive)
@@ -577,7 +586,10 @@ class MainWindow(QMainWindow):
 
     def can_parser(self):
         response = bus.recv(0.02)
-        if response is not None:
+        if (response is not None) and (
+                response.timestamp != self.prev_mes.timestamp):
+            self.prev_mes = response
+            print(response)
             data = bytes(response.data)
             if response.arbitration_id == 830:
                 pass
@@ -610,11 +622,17 @@ class MainWindow(QMainWindow):
                 self.ui.rangefinderValueLabel.setText(
                     str(int.from_bytes(data[0:2], 'big'))
                 )
+                temperature = (
+                    int.from_bytes(data[2:4], 'big', signed=True) / 10
+                    )
                 self.ui.tempGraphValueLabel.setText(
-                    str(int.from_bytes(data[2:4], 'big', signed=True) / 10)
+                    str(temperature)
                 )
                 self.ui.factDurationValueLabel.setText(
                     str(int.from_bytes(data[6:], 'big'))
+                )
+                self.temp_graph.series.append(
+                    self.temp_graph.tick_counter, temperature
                 )
 
             elif response.arbitration_id == 834:
