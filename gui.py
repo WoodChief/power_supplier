@@ -78,6 +78,7 @@ class MainWindow(QMainWindow):
         self.temp_graph = TempGraphWidget(self.ui.tempGraphFrame)
         self.temp_graph.setGeometry(-10, 15, 200, 100)
         self.temp_graph.chart.setPlotArea(QRectF(0, 0, 200, 100))
+        self.temp_graph.lower()
 
         # Supporting variables
         self.prev_mes = can.Message()
@@ -229,6 +230,12 @@ class MainWindow(QMainWindow):
         )
         self.ui.rangeTempMaxSpinBox.valueChanged.connect(
             lambda: self.set_highlighting(self.ui.rangeTempMaxSpinBox)
+        )
+        self.ui.tempGraphPlusPushButton.pressed.connect(
+            self.on_temp_plus_push_button_pressed
+        )
+        self.ui.tempGraphMinusPushButton.pressed.connect(
+            self.on_temp_minus_push_button_pressed
         )
 
     def on_frequency_button_pressed(self, increment):
@@ -487,6 +494,12 @@ class MainWindow(QMainWindow):
         # self.prepare_settings_values()
         self.send_814()
 
+    def on_temp_plus_push_button_pressed(self):
+        self.temp_graph.zoom(1.25)
+
+    def on_temp_minus_push_button_pressed(self):
+        self.temp_graph.zoom(0.8)
+
     def send_can(self):
         if can_connection_event.is_set():
             bus.send(mes)
@@ -589,7 +602,6 @@ class MainWindow(QMainWindow):
         if (response is not None) and (
                 response.timestamp != self.prev_mes.timestamp):
             self.prev_mes = response
-            print(response)
             data = bytes(response.data)
             if response.arbitration_id == 830:
                 pass
@@ -632,7 +644,7 @@ class MainWindow(QMainWindow):
                     str(int.from_bytes(data[6:], 'big'))
                 )
                 self.temp_graph.series.append(
-                    self.temp_graph.tick_counter, temperature
+                    self.temp_graph.position, temperature
                 )
 
             elif response.arbitration_id == 834:

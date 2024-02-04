@@ -17,4 +17,4 @@ To-Do:
 - ~~choose can interface depended on OS~~
 - ~~send can message on tec mode changed~~
 - ~~highlighting for changed but not sent setting~~
-- temperature graph window
+- ~~temperature graph window~~
