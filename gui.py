@@ -649,6 +649,7 @@ class MainWindow(QMainWindow):
                 self.temp_graph.series.append(
                     self.temp_graph.position, temperature
                 )
+                self.temp_graph.value_list.append(temperature)
 
             elif response.arbitration_id == 834:
                 self.ui.currentValueDoubleSpinBox.setMaximum(
