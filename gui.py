@@ -13,6 +13,7 @@ import can
 import can.interfaces.gs_usb
 import threading
 import usb
+import time
 
 # CAN bus init #
 with open('CAN.json') as f:
@@ -30,6 +31,7 @@ try:
         bus = can.Bus(interface=can_settings.interface,
                       channel=can_settings.channel,
                       bitrate=can_settings.bitrate)
+        can_connection_event.set()
     elif os.name == 'nt':
         dev = usb.core.find(idVendor=0x1d50, idProduct=0x606f)
         bus = can.interfaces.gs_usb.GsUsbBus(
@@ -39,7 +41,7 @@ try:
             bitrate=can_settings.bitrate
         )
         can_connection_event.set()
-except AttributeError:
+except (AttributeError, OSError):
     print("Please connect dedicated USB-CAN interface!")
 
 
@@ -771,12 +773,20 @@ class MainWindow(QMainWindow):
     def can_receive(self):
         if can_connection_event.is_set():
             print('CAN receiver thread has started')
-            while True:
+            while can_connection_event.is_set():
                 self.can_parser()
 
     def closeEvent(self, event):
         if can_connection_event.is_set():
+            can_connection_event.clear()
+            time.sleep(0.1)
             bus.shutdown()
+            if os.name == 'posix':
+                password = 'woodman'
+                os.system(f"echo {password} "
+                          f"| sudo -S ip link set {can_settings.channel} down")
+            print("CAN BUS shutdown!")
+
         event.accept()
 
 
