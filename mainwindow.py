@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QCombo
     QPushButton, QRadioButton, QSizePolicy, QSlider,
     QSpinBox, QWidget)
 
+
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         if not mainWindow.objectName():

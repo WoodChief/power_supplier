@@ -5,15 +5,15 @@ from munch import Munch
 import threading
 
 
-class CAN():
+class CAN:
     def __init__(self):
         with open('CAN.json') as f:
-            json_dict = json.load(f)
+            json_dict = json.load(f)['posix']
             self.can_settings = Munch.fromDict(json_dict)
 
         password = 'woodman'
         os.system(f"echo {password} "
-                  f"| sudo -S ip link set {self.can_settings.channel} up "
+                  f"| sudo -S ip link set can1 up "
                   f"type can bitrate {self.can_settings.bitrate}")
 
         self.bus = can.ThreadSafeBus(interface=self.can_settings.interface,
@@ -27,7 +27,7 @@ class CAN():
             self.settings = Munch.fromDict(json.load(f))
 
         self.receive_thread = threading.Thread(target=self.start_receiver)
-        self.receive_thread.start()
+        # self.receive_thread.start()
 
     def start_receiver(self):
         while True:

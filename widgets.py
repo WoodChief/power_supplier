@@ -2,13 +2,19 @@ from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout
 import sys
 from PySide6.QtCharts import QChart, QChartView, QLineSeries, QValueAxis
 from PySide6.QtGui import QPainter
-from PySide6.QtCore import QRectF
+from PySide6.QtCore import QRectF, QRect
 
 
 class TempGraphWidget(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, platform='windows'):
         super().__init__(parent)
-        self.setGeometry(0, 0, 200, 100)
+        geometry = QRect()
+        if platform == 'windows':
+            geometry = QRect(0, 0, 200, 100)
+        elif platform == 'portable':
+            geometry = QRect(0, 0, 352, 352)
+
+        self.setGeometry(geometry)
         self.series = QLineSeries()
         self.chart = QChart()
         self.range_x = 100
@@ -16,7 +22,7 @@ class TempGraphWidget(QWidget):
         self.range_y = 45
         self.max_y = self.range_y
         self.zoom_value = 1
-        self.chart.setPlotArea(QRectF(0, 0, 200, 100))
+        self.chart.setPlotArea(geometry)
         self.chart.addSeries(self.series)
         self.chart.createDefaultAxes()
         self.chart.setAxisX(QValueAxis(), self.series)

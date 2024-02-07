@@ -2,8 +2,8 @@
 import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
-from PySide6.QtCore import QRectF
-from mainwindow import Ui_mainWindow
+from PySide6.QtCore import QRectF, Qt
+import argparse
 from widgets import TempGraphWidget
 from os import listdir
 import os
@@ -14,6 +14,15 @@ import can.interfaces.gs_usb
 import threading
 import usb
 import time
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-p', '--platform', default='windows')
+args = parser.parse_args()
+
+if args.platform == 'windows':
+    from mainwindow import Ui_mainWindow
+elif args.platform == 'portable':
+    from portwindow import Ui_mainWindow
 
 # CAN bus init #
 with open('CAN.json') as f:
@@ -74,10 +83,10 @@ class MainWindow(QMainWindow):
         # Load the ui file #
         self.ui = Ui_mainWindow()
         self.ui.setupUi(self)
-        # self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowIcon(QIcon("images/logoColor.ico"))
 
-        self.temp_graph = TempGraphWidget(self.ui.tempGraphFrame)
+        self.temp_graph = TempGraphWidget(self.ui.tempGraphFrame, args.platform)
         self.temp_graph.setGeometry(-10, 15, 200, 100)
         self.temp_graph.chart.setPlotArea(QRectF(0, 0, 200, 100))
         self.temp_graph.lower()
