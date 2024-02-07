@@ -1,0 +1,3125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>1024</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>1024</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>1024</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame {
+	
+	background-color: rgba(191, 64, 64, 0);
+}
+
+QMainWindow {
+	background-color: rgb(237, 237, 237);
+}
+
+QPushButton {
+	border-radius: 21px;
+	border: 2px solid #969696;
+	background-color: rgb(237, 237, 237);
+}
+
+QPushButton::hover {
+	border: 2px solid #009FA8;
+}
+
+QPushButton::pressed:hover {
+	background-color: #D3DDE0;
+	border: 2px solid #009FA8;
+}
+
+QCheckBox {
+	spacing: 12px;
+	padding: 2px;
+}
+
+QCheckBox::unchecked:hover {
+	color: rgb(0, 159, 168);
+}
+QCheckBox:unchecked {
+	color: #666666;
+}
+QCheckBox:checked {
+	color: #000000;
+}
+
+QCheckBox::indicator {
+	width: 17px;
+	height: 17px;
+	border: 2px solid #666666;
+	border-radius: 7px;
+	background: #E2E2E2;
+}
+
+QCheckBox::indicator:checked {
+	background-color: #009FA8;
+	border-color: #181199;
+}
+
+QCheckBox::indicator:hover {
+	border-color: rgb(0, 159, 168);
+}
+
+QDoubleSpinBox,
+QSpinBox {
+	border-radius: 10px;
+	padding-bottom: 2 px;
+	padding-left: 2 px;
+	color: #666666;
+}
+
+QDoubleSpinBox:hover,
+QSpinBox:hover {
+	color: #000000;
+	border: 2px solid#009FA8;
+	padding-bottom: 4 px;
+}
+
+QLabel {
+	color: #666666;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QFrame" name="durationFrame">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>290</y>
+      <width>475</width>
+      <height>123</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Light</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	border-radius: 10px;
+	border: 1px solid #EDEDED;
+	background-color: #EDEDED;
+	color: #666666;
+	padding-bottom: 2px;
+}
+
+QPushButton:hover {
+	border: 1px solid #009FA8;
+	color: #000000;
+}
+
+QPushButton:pressed {
+	background-color: #D3DDE0;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QSlider" name="durationSlider">
+     <property name="geometry">
+      <rect>
+       <x>53</x>
+       <y>17</y>
+       <width>360</width>
+       <height>38</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QSlider::groove:horizontal {
+	height: 6px;
+	background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
+	border-radius: 3px;
+	margin-left: 1px;
+	margin-right: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: #009FA8;
+	width: 12px;
+	margin: -4px -1px;
+    border-radius: 7px;
+	border: 1px solid #009FA8;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #009FA8;
+	border-color: #181199;
+}
+
+QSlider::sub-page:horizontal {
+	background: qlineargradient(x1:1, y1:0.5, x2:0, y2:0.5, stop:0 #009FA8, stop:1 #181199);
+	border-radius: 3px;
+}</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>250</number>
+     </property>
+     <property name="singleStep">
+      <number>5</number>
+     </property>
+     <property name="value">
+      <number>220</number>
+     </property>
+     <property name="sliderPosition">
+      <number>220</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="durationMinusTenPushButton">
+     <property name="geometry">
+      <rect>
+       <x>158</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>-10</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="durationPlusTwentyPushButton">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>+20</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="durationMinusTwentyPushButton">
+     <property name="geometry">
+      <rect>
+       <x>53</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>-20</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="durationMaxLabel">
+     <property name="geometry">
+      <rect>
+       <x>436</x>
+       <y>19</y>
+       <width>36</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>600</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="durationPlusTenPushButton">
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>+10</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="durationMinLabel">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>19</y>
+       <width>28</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>20</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="currentDurationFrequencyFrame">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>70</y>
+      <width>387</width>
+      <height>202</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton::indicator {
+	width:0 ;
+	height:0;
+	
+	background-color: rgba(191, 64, 64, 0);
+}
+
+QRadioButton {
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	text-align: left;
+	padding-left: 7 px;
+	padding-bottom: 2 px;
+	color: #666666;
+	border: 1px solid #969696;
+	border-right: none;
+	background-color: rgb(237, 237, 237);
+}
+
+QRadioButton::clicked,
+QRadioButton::checked {
+	background-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0, stop:0 rgba(24, 17, 153, 255), stop:1 rgba(0, 159, 168, 255));
+	border: none;
+	color: white;
+	padding-left: 8 px;
+}
+
+QRadioButton:hover {
+	color: #000000;
+	border: 1px solid rgb(0, 159, 168);
+}
+
+QRadioButton::clicked:hover,
+QRadioButton::checked:hover{
+	color: white;
+	border: none;
+}
+
+QDoubleSpinBox,
+QSpinBox {
+	border: 1px solid #969696;
+	border-left: none;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	background-color: rgb(237, 237, 237);
+	padding-bottom: 2px;
+	padding-left: 10px;
+	color: #666666;
+}
+
+QDoubleSpinBox:hover,
+QSpinBox:hover {
+	border: 1px solid rgb(0, 159, 168);
+	color: #000000;
+	background-color: rgb(230, 237, 239);
+}
+
+QLabel {
+	border: 1px solid #969696;
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QRadioButton" name="durationRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>79</y>
+       <width>264</width>
+       <height>44</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Длительность, мкс</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="currentRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>17</y>
+       <width>264</width>
+       <height>44</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Ток Накачки, А</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="frequencyRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>140</y>
+       <width>264</width>
+       <height>44</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Частота, Гц</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="frequencyValueSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>140</y>
+       <width>88</width>
+       <height>44</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="value">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="durationValueSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>79</y>
+       <width>88</width>
+       <height>44</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="minimum">
+      <number>20</number>
+     </property>
+     <property name="maximum">
+      <number>600</number>
+     </property>
+     <property name="value">
+      <number>220</number>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="currentValueDoubleSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>17</y>
+       <width>88</width>
+       <height>44</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="frame">
+      <bool>false</bool>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <double>230.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.500000000000000</double>
+     </property>
+     <property name="value">
+      <double>70.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLabel" name="durationLineLabel">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>88</y>
+       <width>9</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="frequencyLineLabel">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>149</y>
+       <width>9</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="currentLineLabel">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>26</y>
+       <width>9</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>frequencyValueSpinBox</zorder>
+    <zorder>currentValueDoubleSpinBox</zorder>
+    <zorder>durationValueSpinBox</zorder>
+    <zorder>durationRadioButton</zorder>
+    <zorder>currentRadioButton</zorder>
+    <zorder>currentLineLabel</zorder>
+    <zorder>durationLineLabel</zorder>
+    <zorder>frequencyRadioButton</zorder>
+    <zorder>frequencyLineLabel</zorder>
+   </widget>
+   <widget class="QFrame" name="startStopFrame">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>413</y>
+      <width>528</width>
+      <height>105</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Light</family>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton::indicator {
+	width:0 ;
+	height:0;
+	background-color: rgba(191, 64, 64, 0);
+}
+
+QRadioButton {
+	text-align: left;
+	padding-left: 22px;
+	padding-bottom: 1 px;
+	color: #969696;
+	border-radius: 20px;
+	border: none;
+}
+
+QRadioButton::clicked,
+QRadioButton::checked {
+	border: none;
+	color: white;
+}
+
+QRadioButton::clicked:hover,
+QRadioButton::checked:hover{
+	color: white;
+}
+
+QRadioButton:hover {
+	color: rgb(0, 159, 168);
+}
+</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QRadioButton" name="stopRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>17</y>
+       <width>176</width>
+       <height>70</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Semibold</family>
+       <pointsize>15</pointsize>
+       <kerning>true</kerning>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QRadioButton{
+	padding-left: 50px;
+}
+
+QRadioButton::clicked,
+QRadioButton::checked {
+	background-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 #961128, stop:1 #181199);
+}</string>
+     </property>
+     <property name="text">
+      <string>СТОП</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="startRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>176</x>
+       <y>17</y>
+       <width>176</width>
+       <height>70</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Semibold</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QRadioButton{
+	padding-left: 50px;
+}
+
+QRadioButton::clicked,
+QRadioButton::checked {
+	background-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 #181199, stop:1 #0B61A1);
+}</string>
+     </property>
+     <property name="text">
+      <string>СТАРТ</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="backgroudStartStopLabel">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>17</y>
+       <width>492</width>
+       <height>70</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	border-radius: 20px;
+	border: 1px solid #009FA8;
+	background-color: #E2E2E2;
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="externalTriggerRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>334</x>
+       <y>17</y>
+       <width>176</width>
+       <height>70</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Semibold</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QRadioButton{
+	padding-left: 30px;
+	padding-top: 2px;
+}
+
+QRadioButton::clicked,
+QRadioButton::checked {
+	background-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 #0B61A1, stop:1 #009FA8);
+}</string>
+     </property>
+     <property name="text">
+      <string>ВНЕШНИЙ
+  ЗАПУСК</string>
+     </property>
+    </widget>
+    <zorder>backgroudStartStopLabel</zorder>
+    <zorder>stopRadioButton</zorder>
+    <zorder>startRadioButton</zorder>
+    <zorder>externalTriggerRadioButton</zorder>
+   </widget>
+   <widget class="QLabel" name="backgroundCurrentDurationFrequencyLabel">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>70</y>
+      <width>528</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+	background-color: #E2E2E2;
+	border-radius: 15px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="backgroundSliderLabel">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>290</y>
+      <width>528</width>
+      <height>123</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+	background-color: #E2E2E2;
+	border-radius: 15px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frequencyFrame">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>290</y>
+      <width>475</width>
+      <height>123</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Light</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	border-radius: 10px;
+	border: 1px solid #EDEDED;
+	background-color: #EDEDED;
+	color: #666666;
+	padding-bottom: 2px;
+}
+
+QPushButton:hover {
+	border: 1px solid #009FA8;
+	color: #000000;
+}
+
+QPushButton:pressed {
+	background-color: #D3DDE0;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QSlider" name="frequencySlider">
+     <property name="geometry">
+      <rect>
+       <x>53</x>
+       <y>17</y>
+       <width>360</width>
+       <height>38</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QSlider::groove:horizontal {
+	height: 6px;
+	background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
+	border-radius: 3px;
+	margin-left: 1px;
+	margin-right: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: #009FA8;
+	width: 12px;
+	margin: -4px -1px;
+    border-radius: 7px;
+	border: 1px solid #009FA8;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #009FA8;
+	border-color: #181199;
+}
+
+QSlider::sub-page:horizontal {
+	background: qlineargradient(x1:1, y1:0.5, x2:0, y2:0.5, stop:0 #009FA8, stop:1 #181199);
+	border-radius: 3px;
+}</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="value">
+      <number>15</number>
+     </property>
+     <property name="sliderPosition">
+      <number>15</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="frequencyMaxLabel">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>19</y>
+       <width>28</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>50</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="frequencyMinLabel">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>19</y>
+       <width>28</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="frequencyPlusOnePushButton">
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>+1</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="frequencyPlusFivePushButton">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>+5</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="frequencyMinusOnePushButton">
+     <property name="geometry">
+      <rect>
+       <x>158</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>-1</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="frequencyMinusFivePushButton">
+     <property name="geometry">
+      <rect>
+       <x>53</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>-5</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="parametersFrame">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>510</y>
+      <width>528</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="parametersLineLabel">
+     <property name="geometry">
+      <rect>
+       <x>272</x>
+       <y>17</y>
+       <width>9</width>
+       <height>177</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	border: 1px solid #009FA8;
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="factDurationValueLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>128</y>
+       <width>67</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>2256</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="offFDPumpingCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>293</x>
+       <y>122</y>
+       <width>230</width>
+       <height>37</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Выкл. накачки по ФД</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="voltageLabel">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>23</y>
+       <width>160</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Напряжение, В</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="PCDCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>293</x>
+       <y>53</y>
+       <width>177</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>PCD-21</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="jitterStabCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>293</x>
+       <y>88</y>
+       <width>195</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Стаб. джиттера</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="rangefinderValueLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>163</y>
+       <width>67</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>50250</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="rangefinderLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>163</y>
+       <width>160</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Дальность, м</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="rangefinderCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>293</x>
+       <y>158</y>
+       <width>158</width>
+       <height>37</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Дальномер</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="factDurationLabel">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>128</y>
+       <width>160</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Факт. длител., мкс</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="delayLabel">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>58</y>
+       <width>160</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Задержка, мкс</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PWMLabel">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>93</y>
+       <width>160</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>ШИМ, %</string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="voltageValueDoubleSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>193</x>
+       <y>23</y>
+       <width>61</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <double>200.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.500000000000000</double>
+     </property>
+     <property name="value">
+      <double>170.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="delayValueSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>193</x>
+       <y>58</y>
+       <width>61</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="minimum">
+      <number>-30</number>
+     </property>
+     <property name="maximum">
+      <number>30</number>
+     </property>
+     <property name="value">
+      <number>5</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="PWMValueSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>193</x>
+       <y>93</y>
+       <width>61</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>95</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="tecFrame">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>739</y>
+      <width>195</width>
+      <height>212</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Light</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+	spacing: 7px;
+	padding: 1px;
+}
+
+QRadioButton::unchecked:hover {
+	color: rgb(0, 159, 168);
+}
+
+QRadioButton:unchecked {
+	color: #666666;
+}
+
+QRadioButton:checked {
+	color: #000000;
+}
+
+QRadioButton::indicator {
+	width: 10px;
+	height: 10px;
+	border: 1px solid #666666;
+	border-radius: 6px;
+	background: #E2E2E2;
+}
+
+QRadioButton::indicator:checked {
+	background-color: rgba(0, 159, 168, 255);
+	border-color: #181199;
+}
+
+QRadioButton::indicator:hover {
+	border-color: rgb(0, 159, 168);
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QRadioButton" name="stabTempRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>70</y>
+       <width>195</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Стабилизация</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="offTempRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>35</y>
+       <width>195</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="tabletTracking">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Выключено</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="rangeTempRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>140</y>
+       <width>156</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Диапазон</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="tecLabel">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>0</y>
+       <width>160</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Semibold</family>
+       <pointsize>12</pointsize>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	color: #666666;
+}</string>
+     </property>
+     <property name="text">
+      <string>ТЭК</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="stabTempDegreesLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>102</x>
+       <y>105</y>
+       <width>37</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>°С</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="rangeTempHyphenLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>81</x>
+       <y>176</y>
+       <width>28</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>-</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="rangeTempDegreesLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>146</x>
+       <y>176</y>
+       <width>37</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>°С</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="stabTempDoubleSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>44</x>
+       <y>105</y>
+       <width>56</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <double>80.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="value">
+      <double>30.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="rangeTempMinSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>44</x>
+       <y>176</y>
+       <width>44</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="minimum">
+      <number>-60</number>
+     </property>
+     <property name="maximum">
+      <number>80</number>
+     </property>
+     <property name="value">
+      <number>25</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="rangeTempMaxSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>104</x>
+       <y>176</y>
+       <width>44</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="minimum">
+      <number>-60</number>
+     </property>
+     <property name="maximum">
+      <number>80</number>
+     </property>
+     <property name="value">
+      <number>35</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="tempGraphFrame">
+    <property name="geometry">
+     <rect>
+      <x>246</x>
+      <y>739</y>
+      <width>318</width>
+      <height>213</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	border-radius: 10px;
+	border: 1px solid #EDEDED;
+	background-color: #EDEDED;
+	color: #666666;
+	padding-bottom: 3px;
+}
+
+QPushButton:hover {
+	border: 1px solid #009FA8;
+	color: black;
+}
+
+QPushButton:pressed {
+	background-color: #D3DDE0;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="tempGraphDegreesLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>264</x>
+       <y>17</y>
+       <width>37</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>17</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>°С</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="tempGraphValueLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>211</x>
+       <y>17</y>
+       <width>54</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>17</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>25.3</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="tempGraphPlusPushButton">
+     <property name="geometry">
+      <rect>
+       <x>88</x>
+       <y>17</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="tempGraphMinusPushButton">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>17</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>-</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="bottomFrame">
+    <property name="geometry">
+     <rect>
+      <x>246</x>
+      <y>968</y>
+      <width>318</width>
+      <height>37</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="powerSupplyNumberLabel">
+     <property name="geometry">
+      <rect>
+       <x>53</x>
+       <y>0</y>
+       <width>248</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Блок №0001</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="connectIconLabel">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>0</y>
+       <width>35</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	border-image: url(images/connect.svg) center;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="disconnectIconLabel">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>0</y>
+       <width>35</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	border-image: url(images/disconnect.svg) center;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="topFrame">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>0</y>
+      <width>529</width>
+      <height>72</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px; 
+	border-top-left-radius: none;
+	border-top-right-radius: none; 
+	border-top: none;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="optionsPushButton">
+     <property name="geometry">
+      <rect>
+       <x>35</x>
+       <y>0</y>
+       <width>53</width>
+       <height>53</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border-image: url(images/optionsButton.svg) center;
+}
+
+QPushButton:hover,
+QPushButton:pressed {
+	border-image: url(images/optionsButtonHover.svg) center;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="exportPushButton">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>0</y>
+       <width>53</width>
+       <height>53</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border-image: url(images/exportButton.svg) center;
+}
+
+QPushButton:hover,
+QPushButton:pressed {
+	border-image: url(images/exportButtonHover.svg) center;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="presetComboBox">
+     <property name="geometry">
+      <rect>
+       <x>211</x>
+       <y>0</y>
+       <width>283</width>
+       <height>53</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>17</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+	background-color: #E2E2E2;
+	border-bottom-right-radius: 10px; 
+	color: #666666;
+	padding: 2px 17px 2px 88px;
+	border: none;
+}
+
+QComboBox:on {
+	background-color: #D3DDE0;
+}
+
+
+QComboBox:hover {
+	color: rgb(0, 159, 168);
+}
+
+QComboBox QAbstractView {
+	
+}
+
+QComboBox QListView {
+	background-color: rgb(237, 237, 237);
+	padding: 9px;
+	color: #666666;
+	outline: none;
+}
+
+QComboBox QListView::item {
+	background-color: rgb(237, 237, 237);
+	color: #666666;
+	padding-left: 9px;
+	border: none;
+}
+
+QComboBox QListView::item:hover {
+	background-color: #D3DDE0;
+	color: rgb(0, 159, 168);
+}
+
+QComboBox::drop-down {
+	width: 53px;
+	height: 53px;
+	padding-right: 10px;
+	border: none;
+}
+
+QComboBox::down-arrow {
+	border-image: url(images/dropDown.svg) center;
+	width: 56px;
+	height: 35px;
+}
+
+QComboBox::down-arrow:hover {
+	border-image: url(images/dropDownHover.svg) center;
+}</string>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+     <property name="frame">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="presetPushButton">
+     <property name="geometry">
+      <rect>
+       <x>175</x>
+       <y>0</y>
+       <width>53</width>
+       <height>53</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border-image: url(images/presetButton.svg) center;
+}
+
+QPushButton:hover,
+QPushButton:pressed {
+	border-image: url(images/presetButtonHover.svg) center;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <zorder>presetComboBox</zorder>
+    <zorder>optionsPushButton</zorder>
+    <zorder>exportPushButton</zorder>
+    <zorder>presetPushButton</zorder>
+   </widget>
+   <widget class="QLabel" name="backgroundBottomFrameLabel">
+    <property name="geometry">
+     <rect>
+      <x>246</x>
+      <y>968</y>
+      <width>318</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+	background-color: #E2E2E2;
+	border-radius: 10px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QFrame" name="saveSendFrame">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>70</y>
+      <width>105</width>
+      <height>202</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="savePushButton">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>114</y>
+       <width>70</width>
+       <height>70</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border-image: url(images/saveButton.svg) center;
+}
+
+QPushButton:hover,
+QPushButton:pressed {
+	border-image: url(images/saveButtonHover.svg) center;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="sendPushButton">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>17</y>
+       <width>70</width>
+       <height>70</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border-image: url(images/sendButton.svg) center;
+}
+
+QPushButton:hover,
+QPushButton:pressed {
+	border-image: url(images/sendButtonHover.svg) center;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="backgroundTempGraphLabel">
+    <property name="geometry">
+     <rect>
+      <x>246</x>
+      <y>739</y>
+      <width>318</width>
+      <height>213</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+	background-color: #E2E2E2;
+	border-radius: 15px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QFrame" name="currentFrame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>290</y>
+      <width>475</width>
+      <height>123</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Light</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	border-radius: 10px;
+	border: 1px solid #EDEDED;
+	background-color: #EDEDED;
+	color: #666666;
+	padding-bottom: 2px;
+}
+
+QPushButton:hover {
+	border: 1px solid #009FA8;
+	color: #000000;
+}
+
+QPushButton:pressed {
+	background-color: #D3DDE0;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QSlider" name="currentSlider">
+     <property name="geometry">
+      <rect>
+       <x>53</x>
+       <y>17</y>
+       <width>360</width>
+       <height>38</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QSlider::groove:horizontal {
+	height: 6px;
+	background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
+	border-radius: 3px;
+	margin-left: 1px;
+	margin-right: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: #009FA8;
+	width: 12px;
+	margin: -4px -1px;
+    border-radius: 7px;
+	border: 1px solid #009FA8;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #009FA8;
+	border-color: #181199;
+}
+
+QSlider::sub-page:horizontal {
+	background: qlineargradient(x1:1, y1:0.5, x2:0, y2:0.5, stop:0 #009FA8, stop:1 #181199);
+	border-radius: 3px;
+}</string>
+     </property>
+     <property name="minimum">
+      <number>10</number>
+     </property>
+     <property name="maximum">
+      <number>1900</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>70</number>
+     </property>
+     <property name="sliderPosition">
+      <number>70</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::NoTicks</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="currentMinusFivePushButton">
+     <property name="geometry">
+      <rect>
+       <x>53</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>-5</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="currentMinusOnePushButton">
+     <property name="geometry">
+      <rect>
+       <x>158</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>-1</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="currentPlusFivePushButton">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>+5</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="currentPlusOnePushButton">
+     <property name="geometry">
+      <rect>
+       <x>258</x>
+       <y>70</y>
+       <width>53</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>+1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="currentMaxLabel">
+     <property name="geometry">
+      <rect>
+       <x>436</x>
+       <y>19</y>
+       <width>37</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>230</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="currentMinLabel">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>19</y>
+       <width>28</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Light</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </widget>
+   </widget>
+   <zorder>backgroundTempGraphLabel</zorder>
+   <zorder>backgroundBottomFrameLabel</zorder>
+   <zorder>topFrame</zorder>
+   <zorder>backgroundSliderLabel</zorder>
+   <zorder>backgroundCurrentDurationFrequencyLabel</zorder>
+   <zorder>currentDurationFrequencyFrame</zorder>
+   <zorder>startStopFrame</zorder>
+   <zorder>parametersFrame</zorder>
+   <zorder>tecFrame</zorder>
+   <zorder>tempGraphFrame</zorder>
+   <zorder>bottomFrame</zorder>
+   <zorder>saveSendFrame</zorder>
+   <zorder>durationFrame</zorder>
+   <zorder>frequencyFrame</zorder>
+   <zorder>currentFrame</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>frequencySlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>frequencyValueSpinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>330</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequencyValueSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>frequencySlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>durationValueSpinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationValueSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>durationSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>251</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>260</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>currentRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>currentFrame</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>currentRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>durationFrame</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>durationFrame</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>currentFrame</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequencyRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>frequencyFrame</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequencyRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>currentFrame</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequencyRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>durationFrame</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>frequencyFrame</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>currentRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>frequencyFrame</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>currentRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>currentLineLabel</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>57</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>currentLineLabel</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>57</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequencyRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>currentLineLabel</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>57</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>durationLineLabel</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>currentRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>durationLineLabel</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequencyRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>durationLineLabel</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>frequencyRadioButton</sender>
+   <signal>pressed()</signal>
+   <receiver>frequencyLineLabel</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>127</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>currentRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>frequencyLineLabel</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>127</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>durationRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>frequencyLineLabel</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>127</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

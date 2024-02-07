@@ -21,14 +21,19 @@ class TempGraphWidget(QWidget):
         self.max_x = self.range_x
         self.range_y = 45
         self.max_y = self.range_y
+        self.value_list = []
         self.zoom_value = 1
+
+        self.x_gap = 0.2
+        self.y_gap = 3
         self.chart.setPlotArea(geometry)
         self.chart.addSeries(self.series)
         self.chart.createDefaultAxes()
         self.chart.setAxisX(QValueAxis(), self.series)
+        self.chart.axisX().setLabelsVisible(True)
         self.chart.setAxisY(QValueAxis(), self.series)
         self.set_axis_range()
-        self.chart.setBackgroundVisible(True)
+        # self.chart.setBackgroundVisible(False)
         self.chart.setAnimationOptions(QChart.SeriesAnimations)
         self.chart.legend().hide()
 
@@ -59,8 +64,22 @@ class TempGraphWidget(QWidget):
 
     def on_new_point_added(self):
         self.position += 1
-        if self.position > self.max_x - self.range_x * 0.2:
+        if self.position > self.max_x - self.range_x * self.x_gap:
             self.max_x += 1
+            self.max_y = max(
+                self.value_list[(
+                    self.position - int(self.range_x * (1 - self.x_gap))):
+                    self.position]) + self.y_gap
+            self.min_y = min(
+                self.value_list[(
+                    self.position - int(self.range_x * (1 - self.x_gap))):
+                    self.position]) - self.y_gap
+            self.range_y = self.max_y - self.min_y
+            self.set_axis_range()
+        else:
+            self.max_y = max(self.value_list) + self.y_gap
+            self.min_y = min(self.value_list) - self.y_gap
+            self.range_y = self.max_y - self.min_y
             self.set_axis_range()
 
 

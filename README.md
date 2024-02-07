@@ -18,3 +18,4 @@ To-Do:
 - ~~send can message on tec mode changed~~
 - ~~highlighting for changed but not sent setting~~
 - ~~temperature graph window~~
+- ~~auto range for temp_graph~~
