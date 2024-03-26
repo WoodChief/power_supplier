@@ -42,14 +42,12 @@ try:
                       bitrate=can_settings.bitrate)
         can_connection_event.set()
     elif os.name == 'nt':
-        dev = usb.core.find(idVendor=0x1d50, idProduct=0x606f)
-        bus = can.interfaces.gs_usb.GsUsbBus(
-            channel=dev.product,
-            bus=dev.bus,
-            address=dev.address,
-            bitrate=can_settings.bitrate
-        )
-        can_connection_event.set()
+        try:
+            bus = can.interface.Bus(bustype='slcan', channel='COM8', bitrate=500000)
+            print("Canable2 is activated")
+        except Exception as e:
+            print(e)
+    can_connection_event.set()
 except (AttributeError, OSError):
     print("Please connect dedicated USB-CAN interface!")
 
@@ -83,7 +81,8 @@ class MainWindow(QMainWindow):
         # Load the ui file #
         self.ui = Ui_mainWindow()
         self.ui.setupUi(self)
-        self.setWindowFlags(Qt.FramelessWindowHint)
+        if args.platform == 'portable':
+            self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowIcon(QIcon("images/logoColor.ico"))
 
         self.temp_graph = TempGraphWidget(self.ui.tempGraphFrame, args.platform)
@@ -535,7 +534,7 @@ class MainWindow(QMainWindow):
             mode = 3
         pulse_period_mks = int(1 / self.ui.frequencyValueSpinBox
                                .value() * 10**6)
-        mes.data = list(
+        mes.data = (
             mode.to_bytes(1, 'big')
             + b'\x00'  # unlimited number of pulses
             + pulse_period_mks.to_bytes(3, 'big')
@@ -545,7 +544,7 @@ class MainWindow(QMainWindow):
 
     def send_813(self):
         mes.arbitration_id = 813
-        mes.data = list(
+        mes.data = (
             int(self.ui.currentValueDoubleSpinBox.value() * 10)
             .to_bytes(2, 'big')
             + self.ui.durationValueSpinBox.value().to_bytes(2, 'big')
@@ -563,7 +562,7 @@ class MainWindow(QMainWindow):
             tec_mode = 1
         elif self.ui.rangeTempRadioButton.isChecked():
             tec_mode = 2
-        mes.data = list(
+        mes.data = (
             tec_mode.to_bytes(1, 'big')
             + int(self.ui.stabTempDoubleSpinBox.value() * 10)
             .to_bytes(2, 'big')
@@ -574,7 +573,7 @@ class MainWindow(QMainWindow):
 
     def send_815(self):
         mes.arbitration_id = 815
-        mes.data = list(
+        mes.data = (
             self.ui.PCDCheckBox.isChecked().to_bytes(1, 'big')
             + self.ui.PWMValueSpinBox.value().to_bytes(1, 'big')
             + self.ui.delayValueSpinBox.value().to_bytes(1, 'big', signed=True)
@@ -584,7 +583,7 @@ class MainWindow(QMainWindow):
 
     def send_816(self):
         mes.arbitration_id = 816
-        mes.data = list(
+        mes.data = (
             self.ui.jitterStabCheckBox.isChecked().to_bytes(1, 'big')
             + self.ui.offFDPumpingCheckBox.isChecked().to_bytes(1, 'big')
             # + current_addition
@@ -603,12 +602,12 @@ class MainWindow(QMainWindow):
 
     def on_save_push_button_pressed(self):
         mes.arbitration_id = 811
-        mes.data = list((4).to_bytes(1, 'big'))
+        mes.data = ((4).to_bytes(1, 'big'))
         self.send_can()
 
     def get_saved_settings(self):
         mes.arbitration_id = 811
-        mes.data = list((1).to_bytes(1, 'big'))
+        mes.data = ((1).to_bytes(1, 'big'))
         self.send_can()
 
     def can_parser(self):
