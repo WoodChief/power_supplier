@@ -483,13 +483,13 @@ class MainWindow(QMainWindow):
 
     def on_send_push_button_pressed(self):
         self.prepare_settings_values()
-        self.send_812()
         self.send_813()
         self.send_814()
         self.send_815()
         self.send_816()
         self.send_817()
         self.send_818()
+        self.send_812()
         self.reset_highlighting()
 
     def on_start_stop_button_pressed(self):
@@ -537,7 +537,7 @@ class MainWindow(QMainWindow):
                                .value() * 10**6)
         mes.data = list(
             mode.to_bytes(1, 'big')
-            + b'\x00'  # unlimited number of pulses
+            + b'\x00\x00'  # unlimited number of pulses
             + pulse_period_mks.to_bytes(3, 'big')
             # + b'\x00'  # should be a sequence number
         )
